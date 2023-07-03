@@ -1,22 +1,24 @@
-# Admin Panel Skeleton: Laravel Backend & Vue.js Frontend Boilerplate
+# Invoicer
+Invoicer is a project that allows you to generate and manage digital invoices using Laravel and Vue.js.
 
-This repository houses a comprehensive boilerplate for kickstarting your admin panel projects with Laravel as the backend framework and Vue.js as the frontend framework. It provides a solid foundation and essential components to accelerate your development process, enabling you to focus on building robust and scalable admin panels.
+## Features
+- To be added
 
-## Key Features:
+## Getting Started
+To get started with Invoicer, follow these steps:
 
-- Laravel backend with optimized configurations, routing, and authentication system
-- Vue.js frontend with a modular architecture and state management using Vuex
-- Responsive and customizable user interface powered by Bootstrap or Tailwind CSS
-- Role-based access control (RBAC) system to manage user permissions
-- Built-in API endpoints and CRUD (Create, Read, Update, Delete) functionality for common admin panel tasks
-- Integration with popular libraries and tools, including Laravel Mix for asset compilation, Axios for API communication, and more
-- Extensible architecture to easily add new features and expand functionality
-- Whether you're a seasoned developer or just getting started, this boilerplate provides a solid foundation for building powerful admin panels quickly and efficiently. It saves you - time by eliminating repetitive setup tasks and following best practices for Laravel and Vue.js development.
-
-Get started today and create stunning, functional admin panels with ease. Happy coding!"
-
-Feel free to customize this description to suit your specific project and emphasize any unique features or additions you've made to the boilerplate.
-
-
-
-
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/SH1R3F/Invoicer.git
+    ```
+2. Install the dependencies for Laravel backend:
+    ```bash
+    cd invoicer
+    composer install
+    ```
+3. Set up the database by configuring the .env file and running migrations:
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate
+    ```
