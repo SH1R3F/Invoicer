@@ -53,7 +53,7 @@ export default defineConfig({
   ],
   define: {
     "process.env": {
-      baseUrl: "http://invoicer.test/api/",
+      baseUrl: "https://invoicer.test/api/v1/",
     },
   },
 
