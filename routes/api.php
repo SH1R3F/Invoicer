@@ -23,5 +23,5 @@ Route::get('/localization', [APIController::class, 'localization']);
  * Authentication Endpoints
  */
 Route::prefix('/auth')->group(function () {
-    Route::get('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
