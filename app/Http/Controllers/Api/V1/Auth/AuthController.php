@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\PermissionResource;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -18,6 +20,20 @@ class AuthController extends Controller
     {
         $request->authenticate();
         $user = request()->user();
+
+        return response()->json([
+            'accessToken' => $user->createToken('auth')->plainTextToken,
+            'userData' => new UserResource($user),
+            'userAbilities' => PermissionResource::collection($user->getPermissionsViaRoles()),
+        ]);
+    }
+
+    /**
+     * Register users
+     */
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        $user = $request->register();
 
         return response()->json([
             'accessToken' => $user->createToken('auth')->plainTextToken,

@@ -24,4 +24,5 @@ Route::get('/localization', [APIController::class, 'localization']);
  */
 Route::prefix('/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 });
