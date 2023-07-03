@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\APIController;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,3 +17,11 @@ Route::get('/', function () {
  * Localization Endpoint
  */
 Route::get('/localization', [APIController::class, 'localization']);
+
+
+/**
+ * Authentication Endpoints
+ */
+Route::prefix('/auth')->group(function () {
+    Route::get('/login', [AuthController::class, 'login']);
+});
