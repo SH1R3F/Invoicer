@@ -12,15 +12,17 @@ const router = createRouter({
 })
 
 
-/**
- * 
- */
 router.beforeEach(to => {
   const isLoggedIn = isUserLoggedIn()
 
   if (canNavigate(to)) {
-    if (to.meta.redirectIfLoggedIn && isLoggedIn)
+    if (to.meta.redirectIfLoggedIn && isLoggedIn){
       return '/'
+    }
+
+    if (to.meta.authenticated && !isLoggedIn){
+      return '/login'
+    }
   }
   else {
     if (isLoggedIn)

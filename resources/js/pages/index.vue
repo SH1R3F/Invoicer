@@ -43,4 +43,5 @@ axios.get('/user').then(response => {
 <route lang="yaml">
 meta:
   title: Dashboard
+  authenticated: true
 </route>
