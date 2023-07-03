@@ -15,12 +15,13 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return array_merge(
-            parent::toArray($request),
             [
+                'id'       => $this->id,
                 'fullName' => $this->name,
+                'email'    => $this->email,
                 'avatar'   => asset($this->avatar ?? 'assets/img/user.webp'),
-                'role'     => $this->roles->first()?->name ?? null,
-                'role_id'  => $this->roles->first()?->id ?? null,
+                'role'     => $this->roles->first()?->name,
+                'role_id'  => $this->roles->first()?->id,
             ]
         );
     }

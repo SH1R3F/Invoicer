@@ -16,7 +16,7 @@ class PermissionResource extends JsonResource
     {
         return [
             'action'  => explode(' ', $this->name)[0],
-            'subject' => explode(' ', $this->name)[1],
+            'subject' => explode(' ', $this->name)[1] ?? null,
         ];
     }
 }
