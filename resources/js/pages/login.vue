@@ -61,7 +61,7 @@ const onSubmit = () => {
     if (isValid)
       login()
   })
-}
+};
 </script>
 
 <template>
@@ -112,19 +112,7 @@ const onSubmit = () => {
             {{ $t('Please sign-in to your account to start using our service') }}
           </p>
         </VCardText>
-        <VCardText>
-          <VAlert
-            color="primary"
-            variant="tonal"
-          >
-            <p class="text-caption mb-2">
-              Admin Email: <strong>superadmin@example.test</strong> / Pass: <strong>password</strong>
-            </p>
-            <p class="text-caption mb-0">
-              Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
-            </p>
-          </VAlert>
-        </VCardText>
+
         <VCardText>
           <VForm
             ref="refVForm"
@@ -194,16 +182,6 @@ const onSubmit = () => {
                 class="d-flex align-center"
               >
                 <VDivider />
-                <span class="mx-4">{{ $t('Or') }}</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
               </VCol>
             </VRow>
           </VForm>
