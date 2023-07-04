@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
@@ -19,9 +20,10 @@ class UserTest extends TestCase
     {
         // Create user
         $user = User::factory()->create();
+        Sanctum::actingAs($user);
 
         // Perform login
-        $response = $this->actingAs($user)->json('GET', action([AuthController::class, 'user']));
+        $response = $this->json('GET', action([AuthController::class, 'user']));
 
         // Assert
         $response
