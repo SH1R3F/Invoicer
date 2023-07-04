@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\PermissionResource;
 use App\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -45,12 +46,22 @@ class AuthController extends Controller
     /**
      * Get Logged In User
      */
-    public function user(Request $request)
+    public function user(Request $request): JsonResponse
     {
         $user = $request->user();
         return response()->json([
             'userData' => new UserResource($user),
             'userAbilities' => PermissionResource::collection($user->getPermissionsViaRoles()),
         ]);
+    }
+
+    /**
+     * Log the current user out
+     */
+    public function logout(Request $request): Response
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->noContent();
     }
 }
