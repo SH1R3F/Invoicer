@@ -41,4 +41,16 @@ class AuthController extends Controller
             'userAbilities' => PermissionResource::collection($user->getPermissionsViaRoles()),
         ]);
     }
+
+    /**
+     * Get Logged In User
+     */
+    public function user(Request $request)
+    {
+        $user = $request->user();
+        return response()->json([
+            'userData' => new UserResource($user),
+            'userAbilities' => PermissionResource::collection($user->getPermissionsViaRoles()),
+        ]);
+    }
 }
