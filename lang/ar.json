@@ -89,5 +89,22 @@
     "Personal information": "البيانات الشخصية",
     "Leave password empty in case you don't want to change it": "أترك كلمة المرور فارغة في حالة لم ترد تغييرها",
     "My invoices": "فواتيري",
-    "Edit user": "تعديل المستخدم"
+    "Edit user": "تعديل المستخدم",
+    "Account": "الحساب",
+    "Security": "الأمان",
+    "Profile Details": "البيانات الشخصية",
+    "Upload new photo": "رفع صورة جديدة",
+    "Reset": "إعادة",
+    "Allowed JPG, GIF or PNG. Max size of 2M": "مسموح بتنسيق JPG أو GIF أو PNG. أقصى حجم 2 ميجا",
+    "Save changes": "حفظ التغييرات",
+    "Delete Account": "حذف الحساب",
+    "I confirm my account deactivation": "أؤكد إلغاء تنشيط حسابي",
+    "Deactivate Account": "تعطيل الحساب",
+    "Are you sure you want to deactivate your account?": "هل أنت متأكد أنك تريد تعطيل حسابك؟",
+    "Deactivated!": "تم التعطيل!",
+    "Your account has been deactivated successfully.": "تم تعطيل حسابك بنجاح.",
+    "Cancelled": "تم الإلغاء",
+    "Account Deactivation Cancelled!": "تم إلغاء تعطيل الحساب!",
+    "Confirm": "تأكيد",
+    "Ok": "حسنًا"
 }

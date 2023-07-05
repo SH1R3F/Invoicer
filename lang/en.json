@@ -89,5 +89,22 @@
     "Personal information": "Personal information",
     "Leave password empty in case you don't want to change it": "Leave password empty in case you don't want to change it",
     "Boilerplate": "Boilerplate",
-    "Edit user": "Edit user"
+    "Edit user": "Edit user",
+    "Account": "Account",
+    "Security": "Security",
+    "Profile Details": "Profile Details",
+    "Upload new photo": "Upload new photo",
+    "Reset": "Reset",
+    "Allowed JPG, GIF or PNG. Max size of 2M": "Allowed JPG, GIF or PNG. Max size of 2M",
+    "Save changes": "Save changes",
+    "Delete Account": "Delete Account",
+    "I confirm my account deactivation": "I confirm my account deactivation",
+    "Deactivate Account": "Deactivate Account",
+    "Are you sure you want to deactivate your account?": "Are you sure you want to deactivate your account?",
+    "Deactivated!": "Deactivated!",
+    "Your account has been deactivated successfully.": "Your account has been deactivated successfully.",
+    "Cancelled": "Cancelled",
+    "Account Deactivation Cancelled!": "Account Deactivation Cancelled!",
+    "Confirm": "Confirm",
+    "Ok": "Ok"
 }
