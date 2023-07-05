@@ -43,5 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/account-settings')->group(function () {
         Route::put('/account', [ProfileController::class, 'profile']);
         Route::put('/password', [ProfileController::class, 'password']);
+        Route::post('/deactive', [ProfileController::class, 'deactive']);
     });
 });

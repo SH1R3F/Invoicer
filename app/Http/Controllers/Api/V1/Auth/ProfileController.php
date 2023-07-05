@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\PermissionResource;
 use App\Http\Requests\Auth\AccountSettings\UpdateProfileRequest;
 use App\Http\Requests\Auth\AccountSettings\UpdatePasswordRequest;
@@ -47,6 +46,18 @@ class ProfileController extends Controller
 
         return response()->json([
             'message'  => __('Password updated successfully'),
+        ]);
+    }
+
+    /**
+     * Update Logged In User profile
+     */
+    public function deactive(Request $request): JsonResponse
+    {
+        $request->user()->delete();
+
+        return response()->json([
+            'message'  => __('User deleted successfully'),
         ]);
     }
 }

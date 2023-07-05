@@ -76,4 +76,20 @@ class UpdateProfileTest extends TestCase
             [['current_password' => 'password', 'new_password' => '0'], ['The new password field confirmation does not match.', 'The new password field must be at least 8 characters.', 'The new password field format is invalid.']],
         ];
     }
+
+    /**
+     * Users can delete their accounts
+     */
+    public function test_user_deletes_their_account_successfully(): void
+    {
+        Sanctum::actingAs($user = User::factory()->create());
+
+        $response = $this->json('POST', action([ProfileController::class, 'deactive']));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath('message', 'User deleted successfully');
+
+        $this->assertTrue($user->trashed());
+    }
 }
