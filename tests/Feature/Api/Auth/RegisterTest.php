@@ -19,7 +19,7 @@ class RegisterTest extends TestCase
     {
         $response = $this->json('POST', action([AuthController::class, 'register']), [
             'email'    => fake()->email,
-            'password' => 'password',
+            'password' => 'password123',
             'name'     => fake()->name
         ]);
 
