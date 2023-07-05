@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\APIController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,7 +33,7 @@ Route::prefix('/auth')->group(function () {
  * Authenticated Routes
  */
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [AuthController::class, 'user']);
-    Route::put('/user', [AuthController::class, 'profile']);
+    Route::get('/user', [ProfileController::class, 'user']);
+    Route::put('/user', [ProfileController::class, 'profile']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
