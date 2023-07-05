@@ -114,5 +114,8 @@
     "Password Requirements:": "Password Requirements:",
     "Minimum 8 characters long - the more, the better": "Minimum 8 characters long - the more, the better",
     "At least one lowercase character": "At least one lowercase character",
-    "At least one number, symbol, or whitespace character": "At least one number, symbol, or whitespace character"
+    "At least one number, symbol, or whitespace character": "At least one number, symbol, or whitespace character",
+    "Profile updated successfully": "Profile updated successfully",
+    "Password updated successfully": "Password updated successfully",
+    "The current password is incorrect.": "The current password is incorrect."
 }
