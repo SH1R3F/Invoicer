@@ -106,5 +106,13 @@
     "Cancelled": "تم الإلغاء",
     "Account Deactivation Cancelled!": "تم إلغاء تعطيل الحساب!",
     "Confirm": "تأكيد",
-    "Ok": "حسنًا"
+    "Ok": "حسنًا",
+    "Change Password": "تغيير كلمة المرور",
+    "Current Password": "كلمة المرور الحالية",
+    "New Password": "كلمة المرور الجديدة",
+    "Confirm New Password": "تأكيد كلمة المرور الجديدة",
+    "Password Requirements:": "متطلبات كلمة المرور:",
+    "Minimum 8 characters long - the more, the better": "طول الكلمة المرورية يجب أن يكون على الأقل 8 أحرف - كلما زادت الأحرف، كان أفضل",
+    "At least one lowercase character": "يجب أن يحتوي على حرف صغير واحد على الأقل",
+    "At least one number, symbol, or whitespace character": "يجب أن يحتوي على رقم أو رمز أو حرف فارغ واحد على الأقل"
 }

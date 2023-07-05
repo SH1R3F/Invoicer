@@ -106,5 +106,13 @@
     "Cancelled": "Cancelled",
     "Account Deactivation Cancelled!": "Account Deactivation Cancelled!",
     "Confirm": "Confirm",
-    "Ok": "Ok"
+    "Ok": "Ok",
+    "Change Password": "Change Password",
+    "Current Password": "Current Password",
+    "New Password": "New Password",
+    "Confirm New Password": "Confirm New Password",
+    "Password Requirements:": "Password Requirements:",
+    "Minimum 8 characters long - the more, the better": "Minimum 8 characters long - the more, the better",
+    "At least one lowercase character": "At least one lowercase character",
+    "At least one number, symbol, or whitespace character": "At least one number, symbol, or whitespace character"
 }
