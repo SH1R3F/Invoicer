@@ -48,7 +48,7 @@ const onCancel = () => {
   emit('confirm', false)
   emit('update:isDialogVisible', false)
   cancelled.value = true
-}
+};
 </script>
 
 <template>
@@ -80,7 +80,7 @@ const onCancel = () => {
           variant="elevated"
           @click="onConfirmation"
         >
-          Confirm
+          {{ $t('Confirm') }}
         </VBtn>
 
         <VBtn
@@ -88,7 +88,7 @@ const onCancel = () => {
           variant="tonal"
           @click="onCancel"
         >
-          Cancel
+          {{ $t('Cancel') }}
         </VBtn>
       </VCardText>
     </VCard>
@@ -123,7 +123,7 @@ const onCancel = () => {
           color="success"
           @click="unsubscribed = false"
         >
-          Ok
+          {{ $t('Ok') }}
         </VBtn>
       </VCardText>
     </VCard>
@@ -156,7 +156,7 @@ const onCancel = () => {
           color="success"
           @click="cancelled = false"
         >
-          Ok
+          {{ $t('Ok') }}
         </VBtn>
       </VCardText>
     </VCard>
