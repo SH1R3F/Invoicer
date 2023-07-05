@@ -86,7 +86,7 @@ export const lengthValidator = (value, length) => {
   if (isEmpty(value))
     return true
 
-  return String(value).length === length || i18n.global.t(`The Min Character field must be at least {length} characters`, { length })
+  return String(value).length >= length || i18n.global.t(`The Min Character field must be at least {length} characters`, { length })
 }
 
 // 👉 Alpha-dash Validator
@@ -96,4 +96,12 @@ export const alphaDashValidator = value => {
   const valueAsString = String(value)
 
   return /^[0-9A-Z_-]*$/i.test(valueAsString) || i18n.global.t('All Character are not valid')
+}
+
+// 👉 Equals Validator
+export const EqualsValidator = (value, expected) => {
+  if (isEmpty(value))
+    return true
+
+  return value === expected || i18n.global.t('The confirmation field does not match the new password field')
 }
