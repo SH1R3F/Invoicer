@@ -16,7 +16,7 @@ class CurrentPassword implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!Hash::check($value, request()->user()->password)) {
-            $fail('The current password is incorrect.');
+            $fail(__('The current password is incorrect.'));
         }
     }
 }

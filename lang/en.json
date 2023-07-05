@@ -128,5 +128,6 @@
     "The Alpha field may only contain alphabetic characters": "The Alpha field may only contain alphabetic characters",
     "URL is invalid": "URL is invalid",
     "All Character are not valid": "All Character are not valid",
-    "The Min Character field must be at least {length} characters": "The Min Character field must be at least {length} characters"
+    "The Min Character field must be at least {length} characters": "The Min Character field must be at least {length} characters",
+    "The confirmation field does not match the new password field": "The confirmation field does not match the new password field"
 }

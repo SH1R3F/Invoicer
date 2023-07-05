@@ -128,5 +128,6 @@
     "The Alpha field may only contain alphabetic characters": "يمكن أن يحتوي حقل الحروف الأبجدية فقط على أحرف",
     "URL is invalid": "عنوان URL غير صالح",
     "All Character are not valid": "جميع الأحرف غير صالحة",
-    "The Min Character field must be at least {length} characters": "يجب أن يحتوي حقل الأحرف الأدنى على {length} حرف على الأقل"
+    "The Min Character field must be at least {length} characters": "يجب أن يحتوي حقل الأحرف الأدنى على {length} حرف على الأقل",
+    "The confirmation field does not match the new password field": "حقل التأكيد غير مُطابق للحقل كلمة المرور الجديدة"
 }
