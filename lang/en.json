@@ -117,5 +117,16 @@
     "At least one number, symbol, or whitespace character": "At least one number, symbol, or whitespace character",
     "Profile updated successfully": "Profile updated successfully",
     "Password updated successfully": "Password updated successfully",
-    "The current password is incorrect.": "The current password is incorrect."
+    "The current password is incorrect.": "The current password is incorrect.",
+    "This field is required": "This field is required",
+    "The Email field must be a valid email": "The Email field must be a valid email",
+    "Field must contain at least one uppercase, lowercase, special character and digit with min 8 chars": "Field must contain at least one uppercase, lowercase, special character and digit with min 8 chars",
+    "The Confirm Password field confirmation does not match": "The Confirm Password field confirmation does not match",
+    "Enter number between {min} and {max}": "Enter number between {min} and {max}",
+    "This field must be an integer": "This field must be an integer",
+    "The Regex field format is invalid": "The Regex field format is invalid",
+    "The Alpha field may only contain alphabetic characters": "The Alpha field may only contain alphabetic characters",
+    "URL is invalid": "URL is invalid",
+    "All Character are not valid": "All Character are not valid",
+    "The Min Character field must be at least {length} characters": "The Min Character field must be at least {length} characters"
 }
