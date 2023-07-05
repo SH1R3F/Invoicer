@@ -24,7 +24,7 @@ const logout = () => {
       ability.update(initialAbility)
     })
   })
-}
+};
 </script>
 
 <template>
@@ -83,7 +83,10 @@ const logout = () => {
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <VListItem
+            link
+            :to="{name: 'profile'}"
+          >
             <template #prepend>
               <VIcon
                 class="me-2"
