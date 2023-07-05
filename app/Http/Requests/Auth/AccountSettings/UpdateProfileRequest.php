@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth\AccountSettings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,6 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'unique:users,email,' . $this->user()->id, 'max:255'],
-            'password' => ['nullable', 'string', 'min:6', 'max:255']
         ];
     }
 }
