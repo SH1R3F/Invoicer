@@ -7,7 +7,7 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Auth\ProfileController;
 
 class UserTest extends TestCase
 {
@@ -23,7 +23,7 @@ class UserTest extends TestCase
         Sanctum::actingAs($user);
 
         // Perform login
-        $response = $this->json('GET', action([AuthController::class, 'user']));
+        $response = $this->json('GET', action([ProfileController::class, 'user']));
 
         // Assert
         $response
@@ -41,7 +41,7 @@ class UserTest extends TestCase
     public function test_logged_in_user_info_endpoint_middleware(): void
     {
         // Perform login
-        $response = $this->json('GET', action([AuthController::class, 'user']));
+        $response = $this->json('GET', action([ProfileController::class, 'user']));
 
         // Assert
         $response
