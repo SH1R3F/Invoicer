@@ -33,7 +33,15 @@ Route::prefix('/auth')->group(function () {
  * Authenticated Routes
  */
 Route::middleware('auth:sanctum')->group(function () {
+    // Fetch Logged-in user data
     Route::get('/user', [ProfileController::class, 'user']);
-    Route::put('/user', [ProfileController::class, 'profile']);
+
+    // Logout
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // Account settings
+    Route::prefix('/account-settings')->group(function () {
+        Route::put('/account', [ProfileController::class, 'profile']);
+        Route::put('/password', [ProfileController::class, 'password']);
+    });
 });

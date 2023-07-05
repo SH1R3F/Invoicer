@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Resources\PermissionResource;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Resources\PermissionResource;
+use App\Http\Requests\Auth\AccountSettings\UpdateProfileRequest;
+use App\Http\Requests\Auth\AccountSettings\UpdatePasswordRequest;
 
 class ProfileController extends Controller
 {
@@ -29,18 +30,23 @@ class ProfileController extends Controller
      */
     public function profile(UpdateProfileRequest $request): JsonResponse
     {
-        $data = $request->validated();
-
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
-
-        $request->user()->update($data);
+        $request->user()->update($request->validated());
 
         return response()->json([
+            'message'  => __('Profile updated successfully'),
             'userData' => new UserResource($request->user())
+        ]);
+    }
+
+    /**
+     * Update Logged In User password
+     */
+    public function password(UpdatePasswordRequest $request): JsonResponse
+    {
+        $request->user()->update(['password' => $request->new_password]);
+
+        return response()->json([
+            'message'  => __('Password updated successfully'),
         ]);
     }
 }
