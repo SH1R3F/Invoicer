@@ -85,7 +85,7 @@ const logout = () => {
           <!-- 👉 Profile -->
           <VListItem
             link
-            :to="{name: 'profile'}"
+            :to="{name: 'profile-tab', params: {tab: 'account'}}"
           >
             <template #prepend>
               <VIcon
