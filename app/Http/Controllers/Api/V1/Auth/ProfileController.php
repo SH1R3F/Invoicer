@@ -29,7 +29,12 @@ class ProfileController extends Controller
      */
     public function profile(UpdateProfileRequest $request): JsonResponse
     {
-        $request->user()->update($request->validated());
+        $data = $request->validated();
+
+        // Upload avatar
+        $data['avatar'] = upload_base64_image(image: $request->avatar, path: "users/{$request->user()->id}/", name: 'avatar-' . uniqid());
+
+        $request->user()->update($data);
 
         return response()->json([
             'message'  => __('Profile updated successfully'),
