@@ -21,10 +21,31 @@ export const useUserListStore = defineStore('UserListStore', {
       })
     },
 
+    // 👉 fetch current user
+    fetchMe() {
+      return new Promise((resolve, reject) => {
+        axios.get('/user').then(response => resolve(response)).catch(error => reject(error))
+      })
+    },
+
     // 👉 update user
     updateUser(id, userData) {
       return new Promise((resolve, reject) => {
         axios.put(`/users/${id}`, userData).then(response => resolve(response)).catch(error => reject(error))
+      })
+    },
+
+    // 👉 update current user
+    updateMe(userData) {
+      return new Promise((resolve, reject) => {
+        axios.put('/account-settings/account', userData).then(response => resolve(response)).catch(error => reject(error))
+      })
+    },
+
+    // 👉 update current user's password
+    updatePassword(passwordData) {
+      return new Promise((resolve, reject) => {
+        axios.put('/account-settings/password', passwordData).then(response => resolve(response)).catch(error => reject(error))
       })
     },
 
