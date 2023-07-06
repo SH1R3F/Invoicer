@@ -2,6 +2,12 @@ import axios from '@axios'
 import { defineStore } from 'pinia'
 
 export const useUserListStore = defineStore('UserListStore', {
+  state: () => {
+    return {
+      userData: JSON.parse(localStorage.getItem('userData') || 'null'),
+    }
+  },
+
   actions: {
     // 👉 Fetch users data
     fetchUsers(params) { return axios.get('/users', { params }) },
@@ -38,7 +44,7 @@ export const useUserListStore = defineStore('UserListStore', {
     // 👉 update current user
     updateMe(userData) {
       return new Promise((resolve, reject) => {
-        axios.put('/account-settings/account', userData).then(response => resolve(response)).catch(error => reject(error))
+        axios.post('/account-settings/account', userData).then(response => resolve(response)).catch(error => reject(error))
       })
     },
 

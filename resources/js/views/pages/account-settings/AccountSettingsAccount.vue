@@ -7,6 +7,7 @@ import {
   requiredValidator,
   emailValidator,
 } from '@validators'
+import { useI18n } from 'vue-i18n'
 
 const ability = useAppAbility()
 const userListStore = useUserListStore()
@@ -29,7 +30,7 @@ const refInputEl = ref()
 const isConfirmDialogOpen = ref(false)
 const userDataLocal = ref(structuredClone(userData))
 const isAccountDeactivated = ref(false)
-const validateAccountDeactivation = [v => !!v || 'Please confirm account deactivation']
+const validateAccountDeactivation = [v => !!v || useI18n().t('Please confirm account deactivation')]
 
 const resetForm = () => {
   userDataLocal.value = structuredClone(userData)
@@ -38,17 +39,21 @@ const resetForm = () => {
 const changeAvatar = file => {
   const fileReader = new FileReader()
   const { files } = file.target
+
   if (files && files.length) {
     fileReader.readAsDataURL(files[0])
     fileReader.onload = () => {
-      if (typeof fileReader.result === 'string')
-        userDataLocal.value.avatar = fileReader.result
+      if (typeof fileReader.result === 'string') {
+        userDataLocal.value.image = fileReader.result
+        userDataLocal.value.avatar = files[0]
+      }
     }
   }
 }
 
 // reset avatar image
 const resetAvatar = () => {
+  userDataLocal.value.image = userData.image
   userDataLocal.value.avatar = userData.avatar
 };
 
@@ -58,11 +63,22 @@ const onSubmit = async () => {
   const { valid } = await refVForm.value?.validate();
   if (valid) {
     try {
-      const response = await userListStore.updateMe(userDataLocal.value);
+
+      var formData = new FormData();
+
+      formData.append("name", userDataLocal.value.name);
+      formData.append("email", userDataLocal.value.email);
+      formData.append("avatar", userDataLocal.value.avatar);
+
+      formData.append("_method", 'PUT');
+
+      const response = await userListStore.updateMe(formData);
 
       const { message, userData } = response.data
 
       localStorage.setItem('userData', JSON.stringify(userData))
+      userListStore.userData = userData;
+
       siteStore.alert(message)
     } catch (error) {
       const { message, errors: errs } = error.response.data
@@ -102,7 +118,7 @@ const deactivateAccount = async state => {
             rounded
             size="100"
             class="me-6"
-            :image="userDataLocal.avatar"
+            :image="userDataLocal.image"
           />
 
           <!-- 👉 Upload Photo -->
@@ -184,10 +200,7 @@ const deactivateAccount = async state => {
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn
-                  type="submit"
-                  :disabled="submitting"
-                >
+                <VBtn :disabled="submitting">
                   {{ $t('Save changes') }}
                 </VBtn>
 

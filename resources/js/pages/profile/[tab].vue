@@ -70,4 +70,6 @@ const tabs = [
 <route lang="yaml">
 meta:
   navActiveLink: profile-tab
+  title: Profile
+  authenticated: true
 </route>

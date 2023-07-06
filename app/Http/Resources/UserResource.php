@@ -22,6 +22,7 @@ class UserResource extends JsonResource
                 'name'     => $this->name,
                 'email'    => $this->email,
                 'avatar'   => $this->avatar ? Storage::url($this->avatar) : asset('assets/img/user.png'),
+                'image'    => $this->avatar ? Storage::url($this->avatar) : asset('assets/img/user.png'),
                 'role'     => $this->roles->first()?->name,
                 'role_id'  => $this->roles->first()?->id,
             ]

@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\PermissionResource;
 use App\Http\Requests\Auth\AccountSettings\UpdateProfileRequest;
 use App\Http\Requests\Auth\AccountSettings\UpdatePasswordRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -32,7 +33,10 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         // Upload avatar
-        $data['avatar'] = filter_var($data['avatar'], FILTER_VALIDATE_URL) ? $data['avatar'] : upload_base64_image(image: $request->avatar, path: "users/{$request->user()->id}/", name: 'avatar-' . uniqid());
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->store("users/{$request->user()->id}");
+            Storage::delete($request->user()->avatar);
+        }
 
         $request->user()->update($data);
 

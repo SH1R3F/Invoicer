@@ -2,10 +2,12 @@
 import { initialAbility } from '@/plugins/casl/ability'
 import { useAppAbility } from '@/plugins/casl/useAppAbility'
 import axios from '@axios'
+import { useUserListStore } from '@/views/pages/users/useUserListStore'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const ability = useAppAbility()
-const userData = JSON.parse(localStorage.getItem('userData') || 'null')
+const { userData } = storeToRefs(useUserListStore())
 
 const logout = () => {
   // Send logout request
