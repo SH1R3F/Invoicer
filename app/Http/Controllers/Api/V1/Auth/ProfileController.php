@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         // Upload avatar
-        $data['avatar'] = upload_base64_image(image: $request->avatar, path: "users/{$request->user()->id}/", name: 'avatar-' . uniqid());
+        $data['avatar'] = filter_var($data['avatar'], FILTER_VALIDATE_URL) ? $data['avatar'] : upload_base64_image(image: $request->avatar, path: "users/{$request->user()->id}/", name: 'avatar-' . uniqid());
 
         $request->user()->update($data);
 
