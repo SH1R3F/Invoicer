@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
-    protected $guard_name = 'api';
+    protected $guard_name = 'sanctum';
 
 
     public const DEFAULT_PICTURE = 'assets/img/user.png';
