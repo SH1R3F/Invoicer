@@ -4,15 +4,14 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class RoleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
@@ -23,7 +22,7 @@ class RoleResource extends JsonResource
             'details' => [
                 'id'          => $this->id,
                 'name'        => $this->name,
-                'permissions' => $this->permissions($this->permissions)
+                'permissions' => $this->preparePermissions($this->permissions)
             ],
             'editable'  => $request->user()->can('update', $this->resource),
             'deletable' => $request->user()->can('delete', $this->resource),
@@ -33,22 +32,23 @@ class RoleResource extends JsonResource
     /**
      * Prepare the permissions
      */
-    public function permissions($permissions)
+    public function preparePermissions(Collection $permissions): array
     {
-        $perms = [];
         $names = [
             'role' => 'Roles',
             'user' => 'Users'
         ];
-        $permissions->map(function ($permission) use (&$perms, $names) {
+        $perms = $permissions->reduce(function ($carry, $permission) use ($names) {
             foreach ($names as $name => $value) {
                 if (str_contains($permission->name, $name)) {
-                    $perms[$value]['name'] = $value;
-                    $perms[$value][$permission->name] = true;
+                    $carry[$value]['name'] = $value;
+                    $carry[$value][$permission->name] = true;
                     break;
                 }
             }
-        });
+            return $carry;
+        }, []);
+
         return array_values($perms);
     }
 }
