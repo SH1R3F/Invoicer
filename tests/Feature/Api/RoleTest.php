@@ -44,4 +44,29 @@ class RoleTest extends TestCase
         $response
             ->assertStatus(403);
     }
+
+    public function test_it_creates_new_role_with_permissions(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        $user->syncRoles(Role::where('name', 'superadmin')->first());
+        Sanctum::actingAs($user);
+        $this->assertDatabaseCount('role_has_permissions', 8);
+
+        $response = $this->json('POST', action([RoleController::class, 'store']), [
+            'name' => $name = 'test',
+            'permissions' => [
+                [
+                    "name" => "Roles",
+                    "Create role" => true,
+                    "Read role" => true,
+                    "Update role" => true,
+                    "Delete role" => true
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('role_has_permissions', ['role_id' => Role::where('name', $name)->first()->id]);
+    }
 }
