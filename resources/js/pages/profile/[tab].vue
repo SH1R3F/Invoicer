@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import AccountSettingsAccount from '@/views/pages/account-settings/AccountSettingsAccount.vue'
 import AccountSettingsSecurity from '@/views/pages/account-settings/AccountSettingsSecurity.vue'
-import SkeletonLoader from '@/layouts/components/SkeletonLoader.vue'
+import RequestLoader from '@/layouts/components/RequestLoader.vue'
 
 const route = useRoute()
 const activeTab = ref(route.params.tab)
@@ -54,7 +54,7 @@ const tabs = [
           <AccountSettingsAccount />
 
           <template #fallback>
-            <SkeletonLoader />
+            <RequestLoader />
           </template>
         </Suspense>
       </VWindowItem>

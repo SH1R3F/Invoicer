@@ -4,6 +4,7 @@ import ScrollToTop from '@core/components/ScrollToTop.vue'
 import { useThemeConfig } from '@core/composable/useThemeConfig'
 import { hexToRgb } from '@layouts/utils'
 import { themeConfig } from '@themeConfig'
+import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
 
@@ -32,13 +33,19 @@ const updateTitle = () => {
 
 watch(route, updateTitle)
 
-//
+const { loading } = storeToRefs(siteStore);
 </script>
 
 <template>
   <VLocaleProvider :rtl="isAppRtl">
+    <VProgressLinear
+      v-if="loading"
+      height="2"
+      indeterminate
+      color="primary"
+    />
     <!-- ℹ️ This is required to set the background color of active nav link based on currently active global theme's primary -->
-    <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}`">
+    <VApp :style="`--v-global-theme-primary: ${hexToRgb(global.current.value.colors.primary)}; padding-top: 20px;`">
       <VSnackbar
         v-model="siteStore.alertStatus"
         location="top end"
@@ -48,7 +55,7 @@ watch(route, updateTitle)
         {{ siteStore.alertMessage }}
       </VSnackbar>
 
-  
+
       <RouterView />
       <ScrollToTop />
     </VApp>

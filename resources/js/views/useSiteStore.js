@@ -6,6 +6,7 @@ export const useSiteStore = defineStore('SiteStore', {
       alertStatus: false,
       alertColor: 'success',
       alertMessage: '',
+      loading: false,
     }
   },
 

@@ -1,5 +1,6 @@
 <script setup>
 import RoleCards from '@/views/pages/roles/RoleCards.vue'
+import RequestLoader from '@/layouts/components/RequestLoader.vue'
 </script>
 
 <template>
@@ -15,7 +16,12 @@ import RoleCards from '@/views/pages/roles/RoleCards.vue'
 
     <!-- 👉 Roles Cards -->
     <VCol cols="12">
-      <RoleCards />
+      <Suspense>
+        <RoleCards />
+        <template #fallback>
+          <RequestLoader />
+        </template>
+      </Suspense>
     </VCol>
   </VRow>
 </template>
