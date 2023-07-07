@@ -18,7 +18,7 @@ class AuthorizationSeeder extends Seeder
          * Seed Roles
          */
         $superadmin = Role::updateOrCreate(['name' => 'superadmin']);
-        $superadmin = Role::updateOrCreate(['name' => 'client']);
+        $client     = Role::updateOrCreate(['name' => 'client']);
 
         /**
          * Seed Permissions
