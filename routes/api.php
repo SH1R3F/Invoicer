@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\APIController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
+use App\Http\Controllers\Api\V1\RoleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -45,4 +46,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/password', [ProfileController::class, 'password']);
         Route::post('/deactive', [ProfileController::class, 'deactive']);
     });
+
+    /**
+     * Roles & Users management
+     */
+    Route::resource('roles', RoleController::class)->except(['create', 'edit']);
 });
