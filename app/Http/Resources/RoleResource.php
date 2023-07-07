@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class RoleResource extends JsonResource
 {
@@ -17,7 +19,7 @@ class RoleResource extends JsonResource
         return [
             'id'      => $this->id,
             'role'    => $this->name,
-            'users'   => $this->users()->pluck('avatar')->map(fn ($avatar) => asset($avatar ?? 'assets/img/user.webp')),
+            'users'   => $this->users()->pluck('avatar')->map(fn ($avatar) => $avatar ? Storage::url($avatar) : asset(User::DEFAULT_PICTURE)),
             'details' => [
                 'id'          => $this->id,
                 'name'        => $this->name,
