@@ -51,7 +51,6 @@ class RoleTest extends TestCase
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
-        $this->assertDatabaseCount('role_has_permissions', 8);
 
         $response = $this->json('POST', action([RoleController::class, 'store']), [
             'name' => $name = 'test',

@@ -14,13 +14,13 @@ class RoleService
     {
         $role = Role::create(['name' => $data['name']]);
 
-        $permissions = [];
-        foreach ($data['permissions'] as $group) {
-            $group = array_filter($group, fn ($p) => is_bool($p) && $p == true);
-            $permissions = array_merge($permissions, $group);
-        }
+        $permissions = collect($data['permissions'])
+            ->flatten()
+            ->filter(fn ($permission) => is_bool($permission) && $permission == true)
+            ->keys()
+            ->all();
 
-        $role->syncPermissions(array_keys($permissions));
+        $role->syncPermissions($permissions);
 
         return $role;
     }
