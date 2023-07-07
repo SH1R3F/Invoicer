@@ -65,15 +65,12 @@ const onSubmit = async () => {
     try {
 
       var formData = new FormData();
-
       formData.append("name", userDataLocal.value.name);
       formData.append("email", userDataLocal.value.email);
       formData.append("avatar", userDataLocal.value.avatar);
-
       formData.append("_method", 'PUT');
 
       const response = await userListStore.updateMe(formData);
-
       const { message, userData } = response.data
 
       localStorage.setItem('userData', JSON.stringify(userData))
