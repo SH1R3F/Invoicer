@@ -43,8 +43,6 @@ class RegisterRequest extends FormRequest
         $user = User::create(['password' => Hash::make($this->password)] + $this->validated());
         $user->syncRoles(Role::where('name', 'client')->first());
 
-        Auth::login($user);
-
         return $user;
     }
 }
