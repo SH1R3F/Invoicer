@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LocalizationTest extends TestCase
+class ApiControllerTest extends TestCase
 {
 
     public function test_it_returns_localization_data(): void

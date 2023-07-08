@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Api\Controllers;
 
 use Tests\TestCase;
 use App\Models\User;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Http\Controllers\Api\V1\RoleController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class RoleTest extends TestCase
+class RoleControllerTest extends TestCase
 {
     use RefreshDatabase;
 
