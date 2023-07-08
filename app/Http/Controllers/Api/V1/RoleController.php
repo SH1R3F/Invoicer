@@ -50,19 +50,16 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, Role $role, RoleService $service): JsonResponse
     {
-        //
+        $service->update($request->validated(), $role);
+
+        return response()->json([
+            'message' => __('Role updated successfully'),
+            'role'    => new RoleResource($role)
+        ]);
     }
 
     /**
