@@ -318,6 +318,7 @@ const exportUsers = () => {
         <!-- 👉 Add New User -->
         <AddNewUserDrawer
           v-model:isDrawerOpen="isAddNewUserDrawerVisible"
+          :roles="roles"
           @user-added="fetchUsers"
         />
       </vcol>
