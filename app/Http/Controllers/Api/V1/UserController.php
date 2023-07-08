@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $users = User::filter($request)
+        $users = User::filter($request->only(['role']))
             ->search($request->q, ['name', 'email'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)

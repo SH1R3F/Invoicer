@@ -59,8 +59,10 @@ class User extends Authenticatable
     /**
      * Filter users in admin panel
      */
-    public function scopeFilter(Builder $query, Request $request): void
+    public function scopeFilter(Builder $query, array $filters): void
     {
-        $query->when($request->role, fn ($query, $role) => $query->whereHas('roles', fn ($query) => $query->where('name', $role)));
+        if (isset($filters['role'])) {
+            $query->whereHas('roles', fn ($query) => $query->where('name', $filters['role']));
+        }
     }
 }
