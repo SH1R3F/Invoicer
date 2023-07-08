@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class Searchable
+trait Searchable
 {
     /**
      * Search scope
