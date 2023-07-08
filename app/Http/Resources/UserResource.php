@@ -26,8 +26,8 @@ class UserResource extends JsonResource
                 'image'     => $this->avatar ? Storage::url($this->avatar) : asset(User::DEFAULT_PICTURE),
                 'role'      => $this->roles->first()?->name,
                 'role_id'   => $this->roles->first()?->id,
-                'editable'  => $request->user()->can('update', $this->resource),
-                'deletable' => $request->user()->can('delete', $this->resource),
+                'editable'  => $request->user()?->can('update', $this->resource),
+                'deletable' => $request->user()?->can('delete', $this->resource),
             ]
         );
     }
