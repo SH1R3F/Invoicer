@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -26,7 +27,8 @@ class UserController extends Controller
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
             ->withQueryString();
 
-        return UserResource::collection($users);
+        return UserResource::collection($users)
+            ->additional(['roles' => Role::pluck('name')]);
     }
 
     /**
