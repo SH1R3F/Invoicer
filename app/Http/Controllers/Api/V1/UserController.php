@@ -51,9 +51,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user): JsonResponse
     {
-        //
+        return response()->json([
+            'user'  => new UserResource($user),
+            'roles' => Role::pluck('name')
+        ]);
     }
 
     /**

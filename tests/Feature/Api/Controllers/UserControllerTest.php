@@ -120,4 +120,18 @@ class UserControllerTest extends TestCase
         $this->assertEquals('client', $user->roles->first()?->name);
         $this->assertEquals('test', $user->name);
     }
+
+    public function test_it_shows_single_user_with_resources(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->json('GET', action([UserController::class, 'show'], [$user->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'user' => ['id', 'name', 'email', 'avatar', 'role'],
+                'roles' => []
+            ]);
+    }
 }
