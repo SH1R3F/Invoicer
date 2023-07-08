@@ -92,6 +92,7 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 5000,
+    target: 'esnext',
   },
   optimizeDeps: {
     exclude: ["vuetify"],

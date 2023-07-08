@@ -9,7 +9,7 @@ import { themeConfig } from '@themeConfig'
 
 const email = ref('')
 const authThemeImg = useGenerateImageVariant(authV2ForgotPasswordIllustrationLight, authV2ForgotPasswordIllustrationDark)
-const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
+const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark);
 </script>
 
 <template>
@@ -105,7 +105,7 @@ const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 </template>
 
 <style lang="scss">
-@use "@core-scss/template/pages/page-auth.scss";
+@use "@core/scss/template/pages/page-auth.scss";
 </style>
 
 <route lang="yaml">
