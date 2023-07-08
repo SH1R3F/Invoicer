@@ -18,14 +18,16 @@ class UserResource extends JsonResource
     {
         return array_merge(
             [
-                'id'       => $this->id,
-                'fullName' => $this->name,
-                'name'     => $this->name,
-                'email'    => $this->email,
-                'avatar'   => $this->avatar ? Storage::url($this->avatar) : asset(User::DEFAULT_PICTURE),
-                'image'    => $this->avatar ? Storage::url($this->avatar) : asset(User::DEFAULT_PICTURE),
-                'role'     => $this->roles->first()?->name,
-                'role_id'  => $this->roles->first()?->id,
+                'id'        => $this->id,
+                'fullName'  => $this->name,
+                'name'      => $this->name,
+                'email'     => $this->email,
+                'avatar'    => $this->avatar ? Storage::url($this->avatar) : asset(User::DEFAULT_PICTURE),
+                'image'     => $this->avatar ? Storage::url($this->avatar) : asset(User::DEFAULT_PICTURE),
+                'role'      => $this->roles->first()?->name,
+                'role_id'   => $this->roles->first()?->id,
+                'editable'  => $request->user()->can('update', $this->resource),
+                'deletable' => $request->user()->can('delete', $this->resource),
             ]
         );
     }
