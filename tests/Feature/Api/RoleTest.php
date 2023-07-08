@@ -66,12 +66,53 @@ class RoleTest extends TestCase
         $this->assertCount(4, Role::where('name', $name)->first()->permissions);
     }
 
-    public function test_it_does_create_role_for_unauthorized_users(): void
+    public function test_it_doesnt_create_role_for_unauthorized_users(): void
     {
         $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
         $this->json('POST', action([RoleController::class, 'store']))->assertStatus(403);
+    }
+
+    public function test_it_deletes_role(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        $user->syncRoles(Role::where('name', 'superadmin')->first());
+        Sanctum::actingAs($user);
+
+        $role = Role::create(['name' => 'test']);
+
+        $response = $this->json('DELETE', action([RoleController::class, 'destroy'], [$role->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Role deleted successfully']);
+    }
+
+    public function test_it_doesnt_delete_superadmin_and_client_roles(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        $user->syncRoles(Role::where('name', 'superadmin')->first());
+        Sanctum::actingAs($user);
+
+        $role = Role::where('name', 'superadmin')->first();
+        $this->json('DELETE', action([RoleController::class, 'destroy'], [$role->id]))->assertStatus(403);
+
+        $role = Role::where('name', 'client')->first();
+        $this->json('DELETE', action([RoleController::class, 'destroy'], [$role->id]))->assertStatus(403);
+    }
+
+    public function test_it_doesnt_delete_role_for_unauthorized_users(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $role = Role::create(['name' => 'test']);
+
+        $this->json('DELETE', action([RoleController::class, 'destroy'], [$role->id]))->assertStatus(403);
     }
 }
