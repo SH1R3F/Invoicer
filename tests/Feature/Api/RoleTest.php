@@ -75,6 +75,43 @@ class RoleTest extends TestCase
         $this->json('POST', action([RoleController::class, 'store']))->assertStatus(403);
     }
 
+    public function test_it_updates_role_with_permissions(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        $user->syncRoles(Role::where('name', 'superadmin')->first());
+        Sanctum::actingAs($user);
+
+        $role = Role::create(['name' => 'test']);
+        $response = $this->json('PUT', action([RoleController::class, 'update'], [$role->id]), [
+            'name' => $name = 'test',
+            'permissions' => [
+                [
+                    "name" => "Roles",
+                    "Create role" => true,
+                    "Read role" => true,
+                    "Update role" => true,
+                    "Delete role" => true
+                ],
+            ]
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Role updated successfully']);
+        $this->assertCount(4, Role::where('name', $name)->first()->permissions);
+    }
+
+    public function test_it_doesnt_update_role_for_unauthorized_users(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $role = Role::create(['name' => 'test']);
+        $this->json('PUT', action([RoleController::class, 'update'], [$role->id]))->assertStatus(403);
+    }
+
     public function test_it_deletes_role(): void
     {
         $this->seed(AuthorizationSeeder::class);
@@ -83,7 +120,6 @@ class RoleTest extends TestCase
         Sanctum::actingAs($user);
 
         $role = Role::create(['name' => 'test']);
-
         $response = $this->json('DELETE', action([RoleController::class, 'destroy'], [$role->id]));
 
         $response
