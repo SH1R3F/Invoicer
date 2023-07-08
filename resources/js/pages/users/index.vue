@@ -4,16 +4,19 @@ import { useUserListStore } from '@/views/pages/users/useUserListStore'
 import { useSiteStore } from '@/views/useSiteStore'
 import { avatarText } from '@core/utils/formatters'
 import { paginationMeta } from '@layouts/utils'
+import axios from '@axios'
 import { useI18n } from 'vue-i18n'
 import { VDataTableServer } from 'vuetify/labs/VDataTable'
 
 const userListStore = useUserListStore()
 const searchQuery = ref('')
 const selectedRole = ref()
-const selectedStatus = ref()
 const totalPage = ref(1)
 const totalUsers = ref(0)
 const users = ref([])
+const roles = ref([])
+const { t } = useI18n()
+const loading = ref(false)
 
 const options = ref({
   page: 1,
@@ -22,8 +25,6 @@ const options = ref({
   groupBy: [],
   search: undefined,
 })
-
-const { t } = useI18n()
 
 // Headers
 const headers = [
@@ -40,94 +41,37 @@ const headers = [
     key: 'email',
   },
   {
-    title: t('Status'),
-    key: 'status',
-  },
-  {
     title: t('Actions'),
     key: 'actions',
     sortable: false,
   },
 ]
 
-// 👉 Stats
-const userStats = ref([])
-
 // 👉 Fetching users
-const fetchUsers = () => {
-  userListStore.fetchUsers({
-    q: searchQuery.value,
-    status: selectedStatus.value,
-    role: selectedRole.value,
-    options: options.value,
-  }).then(response => {
-    users.value = response.data.data
-    totalPage.value = response.data.meta.last_page
-    totalUsers.value = response.data.meta.total
-    options.value.page = response.data.meta.current_page
+const fetchUsers = async () => {
+  loading.value = true;
+  try {
+    const response = await userListStore.fetchUsers({
+      q: searchQuery.value,
+      role: selectedRole.value,
+      options: options.value,
+    });
 
-    const { total, superadmins, active, inactive } = response.data.stats
+    const { data, meta, roles: roleNames } = response.data;
 
-    // Update stats
-    userStats.value = [
-      {
-        icon: 'tabler-user',
-        color: 'primary',
-        title: 'Total',
-        stats: total,
-        subtitle: 'Total Users',
-      },
-      {
-        icon: 'tabler-user-check',
-        color: 'success',
-        title: 'Superadmins',
-        stats: superadmins,
-        subtitle: 'Total superadmins',
-      },
-      {
-        icon: 'tabler-user-exclamation',
-        color: 'warning',
-        title: 'Active Users',
-        stats: active,
-        subtitle: 'Total active users',
-      },
-      {
-        icon: 'tabler-user-plus',
-        color: 'error',
-        title: 'Inactive Users',
-        stats: inactive,
-        subtitle: 'Total inactive users',
-      },
-    ]
-  }).catch(error => {
-    console.error(error)
-  })
-}
+    roles.value = roleNames;
+    users.value = data;
+    totalPage.value = meta.last_page;
+    totalUsers.value = meta.total;
+    options.value.page = meta.current_page;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false
+  }
+};
 
-watchEffect(fetchUsers)
-
-// 👉 search filters
-const roles = [
-  {
-    title: 'مدير',
-    value: 'superadmin',
-  },
-  {
-    title: 'مستخدم',
-    value: 'user',
-  },
-]
-
-const status = [
-  {
-    title: 'فعال',
-    value: 1,
-  },
-  {
-    title: 'غير فعال',
-    value: 0,
-  },
-]
+watchEffect(await fetchUsers)
 
 const resolveUserRoleVariant = role => {
   const roleLowerCase = role?.toLowerCase()
@@ -141,112 +85,56 @@ const resolveUserRoleVariant = role => {
       color: 'secondary',
       icon: 'tabler-device-laptop',
     }
-  
+
   return {
     color: 'primary',
     icon: 'tabler-user',
   }
 }
 
-const resolveUserStatusVariant = stat => {
-  if (stat == 1)
-    return 'success'
-  if (stat == 0)
-    return 'warning'
-  
-  return 'primary'
-}
-
 const isAddNewUserDrawerVisible = ref(false)
 
-const deleteUser = id => {
-  userListStore.deleteUser(id).then(response => {
-    const { status, message } = response.data
-    if (status == 'success') {
-      useSiteStore().alert(message)
+const deleteUser = async id => {
+  try {
+    const response = await userListStore.deleteUser(id);
+    const { message } = response.data;
 
-      // refetch Users
-      fetchUsers()
-    }
-  })
+    useSiteStore().alert(message);
 
-}
-
+    // refetch Users
+    await fetchUsers();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const exportUsers = () => {
   userListStore.exportUsers({
     q: searchQuery.value,
-    status: selectedStatus.value,
     role: selectedRole.value,
     options: options.value,
   }).then(response => {
-    const { status, url } = response.data
-    if (status == 'success') {
-      window.location = url
-    }
-  })
-}
+    const { url } = response.data
+
+    window.location = url
+  });
+};
 </script>
 
 <template>
   <section>
     <VRow>
-      <VCol
-        v-for="meta in userStats"
-        :key="meta.title"
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <VCard>
-          <VCardText class="d-flex justify-space-between">
-            <div>
-              <span>{{ $t(meta.title) }}</span>
-              <div class="d-flex align-center gap-2 my-1">
-                <h6 class="text-h4">
-                  {{ meta.stats }}
-                </h6>
-              </div>
-              <span>{{ $t(meta.subtitle) }}</span>
-            </div>
-
-            <VAvatar
-              rounded
-              variant="tonal"
-              :color="meta.color"
-              :icon="meta.icon"
-            />
-          </VCardText>
-        </VCard>
-      </VCol>
-
       <VCol cols="12">
         <VCard :title="$t('Search Filter')">
           <!-- 👉 Filters -->
           <VCardText>
             <VRow>
               <!-- 👉 Select Role -->
-              <VCol
-                cols="12"
-                sm="6"
-              >
+              <VCol cols="12">
                 <AppSelect
                   v-model="selectedRole"
                   :label="$t('Select Role')"
                   :items="roles"
-                  clearable
-                  clear-icon="tabler-x"
-                />
-              </VCol>
-              <!-- 👉 Select Status -->
-              <VCol
-                cols="12"
-                sm="6"
-              >
-                <AppSelect
-                  v-model="selectedStatus"
-                  :label="$t('Select Status')"
-                  :items="status"
                   clearable
                   clear-icon="tabler-x"
                 />
@@ -291,7 +179,7 @@ const exportUsers = () => {
                 @click="exportUsers"
               >
                 {{ $t('Export') }}
-              </VBtn>  
+              </VBtn>
 
               <!-- 👉 Add user button -->
               <VBtn
@@ -312,6 +200,7 @@ const exportUsers = () => {
             :items="users"
             :items-length="totalUsers"
             :headers="headers"
+            :loading="loading"
             class="text-no-wrap"
             @update:options="options = $event"
           >
@@ -368,25 +257,19 @@ const exportUsers = () => {
               <span class="text-capitalize font-weight-medium">{{ item.raw.currentPlan }}</span>
             </template>
 
-            <!-- Status -->
-            <template #item.status="{ item }">
-              <VChip
-                :color="resolveUserStatusVariant(item.raw.status)"
-                size="small"
-                label
-                class="text-capitalize"
-              >
-                {{ $t(item.raw.status ? 'Active' : 'Inactive') }}
-              </VChip>
-            </template>
-
             <!-- Actions -->
             <template #item.actions="{ item }">
-              <IconBtn :to="{ name: 'users-id', params: { id: item.raw.id } }">
+              <IconBtn
+                v-if="item.raw.editable"
+                :to="{ name: 'users-id', params: { id: item.raw.id } }"
+              >
                 <VIcon icon="tabler-edit" />
               </IconBtn>
 
-              <IconBtn @click="deleteUser(item.raw.id)">
+              <IconBtn
+                v-if="item.raw.deletable"
+                @click="deleteUser(item.raw.id)"
+              >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </template>

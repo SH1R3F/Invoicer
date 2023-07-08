@@ -7,6 +7,7 @@ import { themeConfig } from '@themeConfig'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
+import RequestLoader from './layouts/components/RequestLoader.vue'
 
 const {
   syncInitialLoaderTheme,
@@ -56,7 +57,9 @@ const { loading } = storeToRefs(siteStore);
       </VSnackbar>
 
 
-      <RouterView />
+      <Suspense>
+        <RouterView />
+      </Suspense>
       <ScrollToTop />
     </VApp>
   </VLocaleProvider>
