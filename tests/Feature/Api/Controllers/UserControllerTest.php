@@ -104,4 +104,20 @@ class UserControllerTest extends TestCase
         $response->assertStatus(201);
         $this->assertEquals('client', User::where('email', $email)->first()->roles->first()?->name);
     }
+
+    public function test_it_updates_user_with_role(): void
+    {
+        $user = User::factory()->create();
+
+        $this->json('PUT', action([UserController::class, 'update'], [$user->id]), [
+            "name" => "test",
+            "role" => "client",
+            "email" => $email = "tesst@test.test",
+            "password" => "password123!"
+        ])->assertStatus(200);
+
+        $user->refresh();
+        $this->assertEquals('client', $user->roles->first()?->name);
+        $this->assertEquals('test', $user->name);
+    }
 }

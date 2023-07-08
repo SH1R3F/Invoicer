@@ -38,7 +38,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request, UserService $service)
+    public function store(UserRequest $request, UserService $service): JsonResponse
     {
         $user = $service->store($request->validated());
 
@@ -59,9 +59,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, User $user, UserService $service): JsonResponse
     {
-        //
+        $service->update($request->validated(), $user);
+
+        return response()->json([
+            'message' => __('User updated successfully'),
+        ]);
     }
 
     /**
