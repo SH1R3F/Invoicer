@@ -27,9 +27,11 @@ const emit = defineEmits([
 
 const { rolePermissions } = toRefs(props)
 
-
 // 👉 Permission List
 const permissions = ref([
+  /**
+   * Here you should hardcode your categorized roles.
+   */
   {
     name: 'Roles',
     'Create role': false,
@@ -62,7 +64,7 @@ const checkedCount = computed(() => {
         counter++
     })
   })
-  
+
   return counter
 })
 
@@ -100,7 +102,7 @@ watch(permissions, () => {
 
 // if rolePermissions is not empty, then set permissions
 watch(rolePermissions, val => {
-  if (val && val.permissions.length > 0) {
+  if (val && val.name) {
     role.value = val.name
     permissions.value = permissions.value.map(permission => {
       const rolePermission = val?.permissions.find(item => item.name === permission.name)
@@ -110,48 +112,51 @@ watch(rolePermissions, val => {
           ...rolePermission,
         }
       }
-      
+
       return permission
     })
   }
 })
 
 const siteStore = useSiteStore()
+const submitting = ref(false)
 
-const onSubmit = () => {
+const onSubmit = async () => {
+  submitting.value = true;
+
   const rolePermissions = {
     name: role.value,
     permissions: permissions.value,
   }
 
-  // Update Or Create on backend
-  const req = props.rolePermissions.id ? axios.put(`roles/${props.rolePermissions.id}`, rolePermissions) : axios.post('roles', rolePermissions)
+  try {
+    // Update or Create on backend
+    const response = props.rolePermissions.id ? await axios.put(`roles/${props.rolePermissions.id}`, rolePermissions) : await axios.post('roles', rolePermissions);
 
-  req?.then(response => {
-    const { status, message } = response.data 
-    if (status == 'success') {
-      emit('update:rolePermissions', rolePermissions)   
-      emit('update:isDialogVisible', false)
-      emit('refetchRoles')
-      isSelectAll.value = false
-      refPermissionForm.value?.reset()
+    const { message } = response.data;
 
-      siteStore.alert(message)
+    emit('update:rolePermissions', rolePermissions);
+    emit('update:isDialogVisible', false);
+    emit('refetchRoles');
+    isSelectAll.value = false;
+    refPermissionForm.value?.reset();
+
+    siteStore.alert(message);
+  } catch (error) {
+    const response = error?.response;
+    if (response?.status === 422) {
+      errors.value = response?.data?.errors;
     }
-  }).catch (err => {
-    const response = err.response
-    if (response?.status== 422) {
-      errors.value = response?.data?.errors
-    }
-  })
-
+  } finally {
+    submitting.value = false;
+  }
 }
 
 const onReset = () => {
   emit('update:isDialogVisible', false)
   isSelectAll.value = false
   refPermissionForm.value?.reset()
-}
+};
 </script>
 
 <template>
@@ -234,7 +239,10 @@ const onReset = () => {
 
           <!-- 👉 Actions button -->
           <div class="d-flex align-center justify-center gap-3 mt-6">
-            <VBtn @click.prevent="onSubmit">
+            <VBtn
+              :disabled="submitting"
+              @click.prevent="onSubmit"
+            >
               {{ $t('Submit') }}
             </VBtn>
 

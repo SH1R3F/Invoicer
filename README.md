@@ -22,3 +22,7 @@ To get started with Invoicer, follow these steps:
     php artisan key:generate
     php artisan migrate
     ```
+
+### Maintenance
+When adding/updating/deleting permissions you will have to add them to the `AuthorizationSeeder.php` as well as to the `AddEditRoleDialog.vue`
+
