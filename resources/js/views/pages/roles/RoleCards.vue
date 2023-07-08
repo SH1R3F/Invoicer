@@ -4,16 +4,21 @@ import axios from '@axios'
 import manUsingTab from '@images/pages/create-deal-review-complete.png'
 
 let roles = ref([])
+const requesting = ref(false)
 
 const siteStore = useSiteStore()
 
-const fetchRoles = () => {
-  axios.get('roles').then(response => {
-    roles.value = response.data
-  })
-}
+const fetchRoles = async () => {
+  try {
+    const response = await axios.get('roles');
 
-fetchRoles()
+    roles.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+await fetchRoles()
 
 const isRoleDialogVisible = ref(false)
 const roleDetail = ref()
@@ -24,15 +29,21 @@ const editPermission = value => {
   roleDetail.value = value
 }
 
-const deleteRole = id => {
-  axios.delete(`roles/${id}`).then(response => {
-    const { status, message } = response.data
-    if (status == 'success') {
-      roles.value = roles.value.filter(role => role.id != id)
-      siteStore.alert(message)
-    }
-  })
-}
+const deleteRole = async id => {
+  requesting.value = true;
+
+  try {
+    const response = await axios.delete(`roles/${id}`);
+    const { message } = response.data;
+
+    roles.value = roles.value.filter(role => role.id !== id);
+    siteStore.alert(message);
+  } catch (error) {
+    console.log(error)
+  } finally {
+    requesting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -67,7 +78,7 @@ const deleteRole = id => {
                 size="36"
                 :image="user"
               />
-              
+
               <VAvatar
                 v-if="item.users.length <= 4"
                 size="36"
@@ -105,6 +116,7 @@ const deleteRole = id => {
               color="error"
               variant="text"
               size="x-small"
+              :disabled="requesting"
               @click="deleteRole(item.id)"
             >
               <VIcon
