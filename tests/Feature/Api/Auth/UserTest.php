@@ -5,6 +5,7 @@ namespace Tests\Feature\Api\Auth;
 use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
+use Database\Seeders\AuthorizationSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
@@ -12,6 +13,13 @@ use App\Http\Controllers\Api\V1\Auth\ProfileController;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(AuthorizationSeeder::class);
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+    }
 
     /**
      * It gets logged in user info

@@ -15,9 +15,15 @@ class RoleControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(AuthorizationSeeder::class);
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+    }
+
     public function test_it_lists_roles(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
@@ -35,7 +41,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_doesnt_list_roles_for_unauthorized_users(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
@@ -44,7 +49,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_creates_new_role_with_permissions(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
@@ -68,7 +72,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_doesnt_create_role_for_unauthorized_users(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
@@ -77,7 +80,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_updates_role_with_permissions(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
@@ -104,7 +106,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_doesnt_update_role_for_unauthorized_users(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
@@ -114,7 +115,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_deletes_role(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
@@ -129,7 +129,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_doesnt_delete_superadmin_and_client_roles(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         $user->syncRoles(Role::where('name', 'superadmin')->first());
         Sanctum::actingAs($user);
@@ -143,7 +142,6 @@ class RoleControllerTest extends TestCase
 
     public function test_it_doesnt_delete_role_for_unauthorized_users(): void
     {
-        $this->seed(AuthorizationSeeder::class);
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 

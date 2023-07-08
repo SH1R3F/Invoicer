@@ -73,4 +73,22 @@ class UserControllerTest extends TestCase
             ->assertStatus(200)
             ->assertSeeInOrder([$this->user->email, 'superadmin@example.test']);
     }
+
+    public function test_it_deletes_user(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->json('DELETE', action([UserController::class, 'destroy'], [$user->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'User deleted successfully']);
+    }
+
+    public function test_it_doesnt_delete_superadmin_users(): void
+    {
+        $user = User::factory()->create();
+        $user->syncRoles(Role::where('name', 'superadmin')->first());
+
+        $this->json('DELETE', action([UserController::class, 'destroy'], [$user->id]))->assertStatus(403);
+    }
 }
