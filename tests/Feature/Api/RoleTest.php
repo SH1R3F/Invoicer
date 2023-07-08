@@ -39,10 +39,7 @@ class RoleTest extends TestCase
         $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        $response = $this->json('GET', action([RoleController::class, 'index']));
-
-        $response
-            ->assertStatus(403);
+        $this->json('GET', action([RoleController::class, 'index']))->assertStatus(403);
     }
 
     public function test_it_creates_new_role_with_permissions(): void
@@ -66,6 +63,15 @@ class RoleTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('role_has_permissions', ['role_id' => Role::where('name', $name)->first()->id]);
+        $this->assertCount(4, Role::where('name', $name)->first()->permissions);
+    }
+
+    public function test_it_does_create_role_for_unauthorized_users(): void
+    {
+        $this->seed(AuthorizationSeeder::class);
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $this->json('POST', action([RoleController::class, 'store']))->assertStatus(403);
     }
 }
