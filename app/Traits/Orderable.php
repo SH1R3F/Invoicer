@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 trait Orderable
@@ -16,13 +17,37 @@ trait Orderable
             return;
         }
 
-        foreach ($sort as [$key, $order]) {
+        foreach ($sort as ['key' => $key, 'order' => $order]) {
             switch ($key) {
+                case 'user':
+                    $this->applyUserOrder($order, $query);
+                    break;
+                case 'role':
+                    $this->applyRoleOrder($order, $query);
+                    break;
                 default:
                     if (in_array($key, \Illuminate\Support\Facades\Schema::getColumnListing($this->getTable()))) {
                         $query->orderBy($key, $order);
                     }
             }
+        }
+    }
+
+    private function applyUserOrder(string $order, Builder $query)
+    {
+        if ($this instanceof User) {
+            $query->orderBy('name', $order);
+        }
+    }
+
+    private function applyRoleOrder(string $order, Builder $query)
+    {
+        if ($this instanceof User) {
+            $query->orderBy(function ($query) {
+                return $query->from('model_has_roles')
+                    ->whereRaw("`model_has_roles`.model_id = `users`.id")
+                    ->select('role_id');
+            }, $order);
         }
     }
 }
