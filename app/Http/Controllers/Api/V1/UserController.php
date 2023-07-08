@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\UserRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
@@ -36,9 +38,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request, UserService $service)
     {
-        //
+        $user = $service->store($request->validated());
+
+        return response()->json([
+            'message' => __('User created successfully'),
+            'user'    => new UserResource($user)
+        ], 201);
     }
 
     /**

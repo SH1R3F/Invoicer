@@ -91,4 +91,17 @@ class UserControllerTest extends TestCase
 
         $this->json('DELETE', action([UserController::class, 'destroy'], [$user->id]))->assertStatus(403);
     }
+
+    public function test_it_creates_new_user_with_role(): void
+    {
+        $response = $this->json('POST', action([UserController::class, 'store']), [
+            "name" => "test",
+            "role" => "client",
+            "email" => $email = "tesst@test.test",
+            "password" => "password123!"
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertEquals('client', User::where('email', $email)->first()->roles->first()?->name);
+    }
 }
