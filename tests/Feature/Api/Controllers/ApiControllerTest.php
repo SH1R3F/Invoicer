@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Api\Controllers;
 
 use App\Http\Controllers\Api\V1\APIController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
