@@ -4,12 +4,36 @@ namespace App\Models;
 
 use App\Traits\Orderable;
 use App\Traits\Searchable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory, Searchable, Orderable;
 
     protected $fillable = ['sku', 'name', 'description', 'image', 'category_id', 'price'];
+
+
+    /**
+     * Get & Set the displayed product price
+     */
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int $value) => number_format($value / 100, 2),
+            set: fn (int|float $value) => $value * 100,
+        );
+    }
+
+    /**
+     * Filter users in admin panel
+     */
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        if (isset($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+    }
 }
