@@ -26,7 +26,6 @@ class ProductRequest extends FormRequest
         return [
             'sku' => [
                 'nullable',
-                'string',
                 'max:255',
                 Rule::when(
                     request()->isMethod('POST'),

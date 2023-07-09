@@ -4,12 +4,13 @@ namespace Tests\Feature\Api\Controllers;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Http\Controllers\Api\V1\ProductController;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductControllerTest extends TestCase
@@ -81,5 +82,21 @@ class ProductControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertSeeInOrder([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    }
+
+    public function test_it_creates_new_product(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->json('POST', action([ProductController::class, 'store']), [
+            "sku" => $sku = Str::random(8),
+            "name" => "prod name",
+            "description" => "description",
+            "category_id" => $category->id,
+            "price" => 100,
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertEquals($sku, Product::first()->sku);
     }
 }
