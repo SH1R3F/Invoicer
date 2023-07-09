@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\UrlOrFile;
+use App\Rules\UrlOrImage;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -36,16 +36,20 @@ class ProductRequest extends FormRequest
             ],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'image' => ['nullable', new UrlOrFile],
+            'image' => ['nullable', new UrlOrImage],
             'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric']
         ];
     }
 
-    protected function passedValidation()
+    public function validated($key = null, $default = null)
     {
+        $validated = parent::validated();
+
         if (!$this->hasFile('image')) {
-            unset($this->image);
+            unset($validated['image']);
         }
+
+        return $validated;
     }
 }

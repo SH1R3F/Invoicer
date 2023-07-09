@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\UrlOrFile;
+use App\Rules\UrlOrImage;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -46,16 +46,20 @@ class UserRequest extends FormRequest
             'avatar'   => [
                 Rule::when(
                     request()->isMethod('PUT'),
-                    ['required', new UrlOrFile]
+                    ['required', new UrlOrImage]
                 )
             ]
         ];
     }
 
-    protected function passedValidation()
+    public function validated($key = null, $default = null)
     {
+        $validated = parent::validated();
+
         if (!$this->hasFile('avatar')) {
-            unset($this->avatar);
+            unset($validated['avatar']);
         }
+
+        return $validated;
     }
 }

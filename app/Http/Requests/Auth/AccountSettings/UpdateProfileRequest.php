@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Auth\AccountSettings;
 
-use App\Rules\UrlOrFile;
+use App\Rules\UrlOrImage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfileRequest extends FormRequest
@@ -25,14 +25,18 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'max:255', 'unique:users,email,' . $this->user()->id],
-            'avatar'   => ['required', new UrlOrFile]
+            'avatar'   => ['required', new UrlOrImage]
         ];
     }
 
-    protected function passedValidation()
+    public function validated($key = null, $default = null)
     {
+        $validated = parent::validated();
+
         if (!$this->hasFile('avatar')) {
-            unset($this->avatar);
+            unset($validated['avatar']);
         }
+
+        return $validated;
     }
 }
