@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Http\Controllers\Api\V1\ProductController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -138,5 +139,16 @@ class ProductControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson(['message' => 'Product deleted successfully']);
+    }
+
+    public function test_it_exports_products_collection()
+    {
+        Excel::fake();
+
+        $this->json('GET', action([ProductController::class, 'export']))
+            ->assertStatus(200)
+            ->assertJsonStructure(['url']);
+
+        Excel::assertStored('Exports/Products/Products-' . time() . '.xlsx', 'public');
     }
 }
