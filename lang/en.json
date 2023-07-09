@@ -95,7 +95,7 @@
     "Profile Details": "Profile Details",
     "Upload new photo": "Upload new photo",
     "Reset": "Reset",
-    "Allowed JPG, GIF or PNG. Max size of 2M": "Allowed JPG, GIF or PNG. Max size of 2M",
+    "Allowed JPG, GIF or PNG. Max size of 10M": "Allowed JPG, GIF or PNG. Max size of 10M",
     "Save changes": "Save changes",
     "Delete Account": "Delete Account",
     "I confirm my account deactivation": "I confirm my account deactivation",
@@ -154,5 +154,12 @@
     "Add New Product": "Add New Product",
     "Add Product": "Add Product",
     "Edit product": "Edit product",
-    ":attribute value is invalid": ":attribute value is invalid"
+    ":attribute value is invalid": ":attribute value is invalid",
+    "Select Category": "Select Category",
+    "No category": "No category",
+    "Description": "Description",
+    "Category": "Category",
+    "Price": "Price",
+    "Leave empty for auto generate": "Leave empty for auto generate",
+    "Sku": "Sku"
 }

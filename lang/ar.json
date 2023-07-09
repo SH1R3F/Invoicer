@@ -99,7 +99,7 @@
     "Profile Details": "البيانات الشخصية",
     "Upload new photo": "رفع صورة جديدة",
     "Reset": "إعادة",
-    "Allowed JPG, GIF or PNG. Max size of 2M": "مسموح بتنسيق JPG أو GIF أو PNG. أقصى حجم 2 ميجا",
+    "Allowed JPG, GIF or PNG. Max size of 10M": "مسموح بتنسيق JPG أو GIF أو PNG. أقصى حجم 10 ميجا",
     "Save changes": "حفظ التغييرات",
     "Delete Account": "حذف الحساب",
     "I confirm my account deactivation": "أؤكد إلغاء تنشيط حسابي",
@@ -154,5 +154,12 @@
     "Read product": "عرض  منتج",
     "Update product": "تحديث منتج",
     "Delete product": "حذف منتج",
-    ":attribute value is invalid": "قيمة الحقل :attribute غير مقبولة"
+    ":attribute value is invalid": "قيمة الحقل :attribute غير مقبولة",
+    "Select Category": "إختر التصنيف",
+    "No category": "بلا تصنيف",
+    "Description": "الوصف",
+    "Category": "التصنيف",
+    "Price": "السعر",
+    "Leave empty for auto generate": "أتركها فارغة للمىء تلقائيًا",
+    "Sku": "معرف المنتج"
 }
