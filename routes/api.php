@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\APIController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
@@ -60,4 +61,9 @@ Route::middleware('auth:sanctum')->group(function () {
      * Categories management
      */
     Route::resource('/categories', CategoryController::class)->except(['create', 'edit']);
+
+    /**
+     * Products management
+     */
+    Route::resource('/products', ProductController::class)->except(['create', 'edit']);
 });

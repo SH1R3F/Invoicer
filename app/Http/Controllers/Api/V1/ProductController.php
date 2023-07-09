@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
@@ -16,9 +20,16 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResource
     {
-        //
+        $products = Product::filter($request->only(['category_id']))
+            ->search($request->q, ['name', 'sku'])
+            ->order($request->options['sortBy'] ?? [])
+            ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
+            ->withQueryString();
+
+        return ProductResource::collection($products)
+            ->additional(['categories' => Category::pluck('name', 'id')]);
     }
 
     /**
