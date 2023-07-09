@@ -99,4 +99,18 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(201);
         $this->assertEquals($sku, Product::first()->sku);
     }
+
+    public function test_it_shows_single_product(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->json('GET', action([ProductController::class, 'show'], [$product->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'product'    => ['id', 'name', 'sku', 'description', 'category_id'],
+                'categories' => []
+            ]);
+    }
 }
