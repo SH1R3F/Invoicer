@@ -197,7 +197,10 @@ const deactivateAccount = async state => {
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn :disabled="submitting">
+                <VBtn
+                  :disabled="submitting"
+                  type="submit"
+                >
                   {{ $t('Save changes') }}
                 </VBtn>
 
