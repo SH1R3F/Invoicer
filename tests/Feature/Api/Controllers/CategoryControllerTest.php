@@ -90,4 +90,14 @@ class CategoryControllerTest extends TestCase
         $category->refresh();
         $this->assertEquals('test', $category->name);
     }
+
+    public function test_it_deletes_category(): void
+    {
+        $category = Category::factory()->create();
+        $response = $this->json('DELETE', action([CategoryController::class, 'destroy'], [$category->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Category deleted successfully']);
+    }
 }
