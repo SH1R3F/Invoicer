@@ -16,7 +16,11 @@ class UrlOrImage implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!empty($value) && !($value instanceof UploadedFile) && !filter_var($value, FILTER_VALIDATE_URL)) {
+        if (empty($value) || $value == 'null') {
+            return;
+        }
+
+        if (!($value instanceof UploadedFile) && !filter_var($value, FILTER_VALIDATE_URL)) {
             $fail(__(':attribute value is invalid', ['attribute' => $attribute]));
         }
 
