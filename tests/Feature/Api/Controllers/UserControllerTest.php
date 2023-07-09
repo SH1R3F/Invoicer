@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
 use Database\Seeders\AuthorizationSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Http\Controllers\Api\V1\UserController;
@@ -134,5 +135,16 @@ class UserControllerTest extends TestCase
                 'user' => ['id', 'name', 'email', 'avatar', 'role'],
                 'roles' => []
             ]);
+    }
+
+    public function test_it_exports_users_collection()
+    {
+        Excel::fake();
+
+        $this->json('GET', action([UserController::class, 'export']))
+            ->assertStatus(200)
+            ->assertJsonStructure(['url']);
+
+        Excel::assertStored('Exports/Users/Users-' . time() . '.xlsx', 'public');
     }
 }
