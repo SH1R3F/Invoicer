@@ -108,16 +108,20 @@ const deleteUser = async id => {
   }
 };
 
-const exportUsers = () => {
-  userListStore.exportUsers({
-    q: searchQuery.value,
-    role: selectedRole.value,
-    options: options.value,
-  }).then(response => {
+const exportUsers = async () => {
+  try {
+    const response = await userListStore.exportUsers({
+      q: searchQuery.value,
+      role: selectedRole.value,
+      options: options.value,
+    });
+
     const { url } = response.data
 
     window.location = url
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 
