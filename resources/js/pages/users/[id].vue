@@ -42,6 +42,7 @@ const updateUser = user => {
     >
       <UserTabAccount
         :user-data="userData"
+        :roles="roles"
         @user-updated="updateUser"
       />
     </VCol>

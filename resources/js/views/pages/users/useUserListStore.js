@@ -37,7 +37,7 @@ export const useUserListStore = defineStore('UserListStore', {
     // 👉 update user
     updateUser(id, userData) {
       return new Promise((resolve, reject) => {
-        axios.put(`/users/${id}`, userData).then(response => resolve(response)).catch(error => reject(error))
+        axios.post(`/users/${id}`, userData).then(response => resolve(response)).catch(error => reject(error))
       })
     },
 

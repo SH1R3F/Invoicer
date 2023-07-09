@@ -12,6 +12,8 @@ const props = defineProps({
   },
 })
 
+const userListStore = useUserListStore()
+const router = useRouter()
 
 const resolveUserRoleVariant = role => {
   if (role === 'superadmin')
@@ -25,9 +27,6 @@ const resolveUserRoleVariant = role => {
     icon: 'tabler-user',
   }
 }
-
-const userListStore = useUserListStore()
-const router = useRouter()
 
 const deleteUser = async () => {
   try {
@@ -129,6 +128,7 @@ const deleteUser = async () => {
         <!-- 👉 Edit and Suspend button -->
         <VCardText class="d-flex justify-center">
           <VBtn
+            v-if="userData.deletable"
             variant="tonal"
             color="error"
             @click="deleteUser"
