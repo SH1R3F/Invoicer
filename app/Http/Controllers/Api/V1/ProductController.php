@@ -11,6 +11,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -76,6 +77,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        if ($product->image) Storage::delete($product->image);
+
+        return response()->json([
+            'message' => __('Product deleted successfully'),
+        ]);
     }
 }

@@ -129,4 +129,14 @@ class ProductControllerTest extends TestCase
         $product->refresh();
         $this->assertEquals('test', $product->name);
     }
+
+    public function test_it_deletes_product(): void
+    {
+        $product = Product::factory()->create();
+        $response = $this->json('DELETE', action([ProductController::class, 'destroy'], [$product->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Product deleted successfully']);
+    }
 }
