@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\APIController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 
@@ -54,4 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/roles', RoleController::class)->except(['create', 'show', 'edit']);
     Route::get('/users/export', [UserController::class, 'export']);
     Route::resource('/users', UserController::class)->except(['create', 'edit']);
+
+    /**
+     * Categories management
+     */
+    Route::resource('/categories', CategoryController::class)->except(['create', 'show', 'edit']);
 });
