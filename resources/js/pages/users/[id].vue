@@ -6,18 +6,27 @@ import UserTabAccount from '@/views/pages/users/view/UserTabAccount.vue'
 const userListStore = useUserListStore()
 const route = useRoute()
 const userData = ref()
+const roles = ref([])
 
-userListStore.fetchUser(Number(route.params.id)).then(response => {
-  userData.value = response.data
-})
+
+try {
+  const response = await userListStore.fetchUser(Number(route.params.id));
+
+  const { user, roles: roleNames } = response.data;
+
+  userData.value = user
+  roles.value = roleNames
+} catch (error) {
+  console.error(error);
+}
 
 const updateUser = user => {
   userData.value = user
-}
+};
 </script>
 
 <template>
-  <VRow v-if="userData">
+  <VRow>
     <VCol
       cols="12"
       md="5"

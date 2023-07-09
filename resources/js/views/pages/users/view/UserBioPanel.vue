@@ -12,14 +12,6 @@ const props = defineProps({
   },
 })
 
-const resolveUserStatusVariant = stat => {
-  if (stat === 1)
-    return 'success'
-  if (stat === 0)
-    return 'secondary'
-  
-  return 'primary'
-}
 
 const resolveUserRoleVariant = role => {
   if (role === 'superadmin')
@@ -27,7 +19,7 @@ const resolveUserRoleVariant = role => {
       color: 'success',
       icon: 'tabler-circle-check',
     }
-  
+
   return {
     color: 'primary',
     icon: 'tabler-user',
@@ -37,19 +29,19 @@ const resolveUserRoleVariant = role => {
 const userListStore = useUserListStore()
 const router = useRouter()
 
-const deleteUser = () => {
-  userListStore.deleteUser(props.userData.id).then(response => {
-    const { status, message } = response.data
+const deleteUser = async () => {
+  try {
+    const response = await userListStore.deleteUser(props.userData.id);
+    const { message } = response.data;
 
-    if (status == 'success') {
-      // redirect
-      router.push('/users').then(() => {
-        useSiteStore().alert(message)
-      })
-    }
-  })
-
-}
+    // redirect
+    router.push('/users').then(() => {
+      useSiteStore().alert(message)
+    })
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
@@ -119,23 +111,6 @@ const deleteUser = () => {
                 <h6 class="text-h6">
                   {{ $t('Email') }}:
                   <span class="text-body-1">{{ props.userData.email }}</span>
-                </h6>
-              </VListItemTitle>
-            </VListItem>
-
-            <VListItem>
-              <VListItemTitle>
-                <h6 class="text-h6">
-                  {{ $t('Status') }}:
-
-                  <VChip
-                    label
-                    size="small"
-                    :color="resolveUserStatusVariant(props.userData.status)"
-                    class="text-capitalize"
-                  >
-                    {{ $t(props.userData.status ? 'Active' : 'Inactive') }}
-                  </VChip>
                 </h6>
               </VListItemTitle>
             </VListItem>
