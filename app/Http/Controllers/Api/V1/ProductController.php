@@ -7,7 +7,9 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Services\ProductService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
@@ -33,19 +35,16 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request, ProductService $service): JsonResponse
     {
-        //
+        $product = $service->store($request->validated());
+
+        return response()->json([
+            'message' => __('Product created successfully'),
+            'product' => new ProductResource($product)
+        ], 201);
     }
 
     /**
