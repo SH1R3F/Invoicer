@@ -113,7 +113,8 @@ class UserControllerTest extends TestCase
             "name" => "test",
             "role" => "client",
             "email" => $email = "tesst@test.test",
-            "password" => "password123!"
+            "password" => "password123!",
+            'avatar' => 'url'
         ])->assertStatus(200);
 
         $user->refresh();

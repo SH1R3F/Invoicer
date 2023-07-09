@@ -42,6 +42,20 @@ class UserRequest extends FormRequest
                     'nullable'
                 )
             ],
+            'avatar'   => [
+                Rule::when(
+                    request()->isMethod('PUT'),
+                    'required'
+                )
+            ]
         ];
+    }
+
+
+    protected function prepareForValidation()
+    {
+        if (request()->isMethod('POST')) {
+            unset($this->avatar);
+        }
     }
 }

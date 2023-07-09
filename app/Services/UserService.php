@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -27,14 +29,31 @@ class UserService
      */
     public function update($data, User $user): void
     {
+        $this->updatePassword($data);
+        $this->updateAvatar($data, $user);
+
+        $user->update($data);
+        $role = Role::where('name', $data['role'])->first();
+        $user->syncRoles($role);
+    }
+
+    private function updatePassword(array &$data): void
+    {
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
             $data['password'] = Hash::make($data['password']);
         }
+    }
 
-        $user->update($data);
-        $role = Role::where('name', $data['role'])->first();
-        $user->syncRoles($role);
+    private function updateAvatar(array &$data, User $user): void
+    {
+        // Upload avatar
+        if ($data['avatar'] instanceof UploadedFile) {
+            $data['avatar'] = $data['avatar']->store("users/{$user->id}");
+            Storage::delete($user->avatar);
+        } else {
+            unset($data['avatar']);
+        }
     }
 }
