@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth\AccountSettings;
 
+use App\Rules\UrlOrFile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfileRequest extends FormRequest
@@ -24,7 +25,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'max:255', 'unique:users,email,' . $this->user()->id],
-            'avatar'   => ['required']
+            'avatar'   => ['required', new UrlOrFile]
         ];
     }
 }

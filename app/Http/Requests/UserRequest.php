@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UrlOrFile;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -45,7 +46,7 @@ class UserRequest extends FormRequest
             'avatar'   => [
                 Rule::when(
                     request()->isMethod('PUT'),
-                    'required'
+                    ['required', new UrlOrFile]
                 )
             ]
         ];

@@ -31,7 +31,7 @@ class UpdateProfileTest extends TestCase
         $response = $this->json('PUT', action([ProfileController::class, 'profile']), [
             'name'     => fake()->name,
             'email'    => $email = fake()->email,
-            'avatar'   => 'image_url'
+            'avatar'   => fake()->url
         ]);
 
         $response

@@ -143,10 +143,6 @@
     "Add New Category": "إضافة تصنيف جديد",
     "Add Category": "إضافة تصنيف",
     "Edit category": "تعديل تصنيف",
-    "Create category": "إنشاء تصنيف",
-    "Read category": "عرض  تصنيف",
-    "Update category": "تحديث تصنيف",
-    "Delete category": "حذف تصنيف",
     "Product deleted successfully": "تم حذف المنتج بنجاح",
     "Product updated successfully": "تم تعديل المنتج بنجاح",
     "Product created successfully": "تم إنشاء المنتج بنجاح",
@@ -157,5 +153,6 @@
     "Create product": "إنشاء منتج",
     "Read product": "عرض  منتج",
     "Update product": "تحديث منتج",
-    "Delete product": "حذف منتج"
+    "Delete product": "حذف منتج",
+    ":attribute value is invalid": "قيمة الحقل :attribute غير مقبولة"
 }
