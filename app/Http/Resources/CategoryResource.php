@@ -14,6 +14,11 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'editable'  => $request->user()?->can('update', $this->resource),
+            'deletable' => $request->user()?->can('delete', $this->resource),
+        ];
     }
 }
