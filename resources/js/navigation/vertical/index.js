@@ -29,4 +29,11 @@ export default [
     action: 'Read',
     subject: 'category',
   },
+  {
+    title: 'Products',
+    to: { name: 'products' },
+    icon: { icon: 'tabler-package' },
+    action: 'Read',
+    subject: 'product',
+  },
 ]

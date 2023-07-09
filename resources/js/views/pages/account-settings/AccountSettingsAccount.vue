@@ -156,7 +156,7 @@ const deactivateAccount = async state => {
             </div>
 
             <p class="text-body-1 mb-0">
-              {{ $t('Allowed JPG, GIF or PNG. Max size of 2M') }}
+              {{ $t('Allowed JPG, GIF or PNG. Max size of 10M') }}
             </p>
           </form>
         </VCardText>

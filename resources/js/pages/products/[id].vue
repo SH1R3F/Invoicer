@@ -1,44 +1,42 @@
 <script setup>
-import { useUserListStore } from '@/views/pages/users/useUserListStore'
+import { useProductListStore } from '@/views/pages/products/useProductListStore'
 import { useSiteStore } from '@/views/useSiteStore'
 import {
-  emailValidator,
   requiredValidator,
-  lengthValidator,
-  regexValidator,
 } from '@validators'
 
-const props = defineProps({
-  userData: {
-    type: Object,
-    required: true,
-  },
-  roles: {
-    type: Object,
-    required: true,
-  },
-})
-
-const emit = defineEmits([
-  'userUpdated',
-])
-
-const userListStore = useUserListStore()
+const productListStore = useProductListStore()
+const route = useRoute()
+const productData = ref()
+const categories = ref([])
 const siteStore = useSiteStore()
+const refVForm = ref()
+const submitting = ref(false)
+const preview = ref()
+const refInputEl = ref()
 
 const errors = ref({
+  sku: undefined,
   name: undefined,
-  email: undefined,
-  role: undefined,
-  password: undefined,
+  description: undefined,
+  image: undefined,
+  category_id: undefined,
+  price: undefined,
 })
 
-const refInputEl = ref()
-const userDataLocal = ref(JSON.parse(JSON.stringify(props.userData)))
-const isNewPasswordVisible = ref(false)
-const submitting = ref(false)
-const refVForm = ref()
-const router = useRouter()
+
+
+try {
+  const response = await productListStore.fetchProduct(Number(route.params.id));
+
+  productData.value = response.data.product
+  categories.value = response.data.categories
+  preview.value = productData.value.image
+
+} catch (error) {
+  console.error(error);
+}
+const productDataLocal = ref(JSON.parse(JSON.stringify(productData.value)))
 
 const changeAvatar = file => {
   const fileReader = new FileReader()
@@ -48,8 +46,8 @@ const changeAvatar = file => {
     fileReader.readAsDataURL(files[0])
     fileReader.onload = () => {
       if (typeof fileReader.result === 'string') {
-        userDataLocal.value.image = fileReader.result
-        userDataLocal.value.avatar = files[0]
+        preview.value = fileReader.result
+        productDataLocal.value.image = files[0]
       }
     }
   }
@@ -57,9 +55,10 @@ const changeAvatar = file => {
 
 // reset avatar image
 const resetAvatar = () => {
-  userDataLocal.value.image = props.userData.image
-  userDataLocal.value.avatar = props.userData.avatar
+  preview.value = props.userData.image
+  productDataLocal.value.avatar = props.userData.avatar
 };
+
 
 const onSubmit = async () => {
   submitting.value = true;
@@ -69,21 +68,17 @@ const onSubmit = async () => {
     try {
 
       var formData = new FormData();
-      formData.append("name", userDataLocal.value.name);
-      formData.append("email", userDataLocal.value.email);
-      formData.append("role", userDataLocal.value.role);
-      formData.append("avatar", userDataLocal.value.avatar);
+      formData.append("sku", productDataLocal.value.sku);
+      formData.append("name", productDataLocal.value.name);
+      formData.append("description", productDataLocal.value.description);
+      formData.append("image", productDataLocal.value.image);
+      formData.append("category_id", productDataLocal.value.category_id);
+      formData.append("price", productDataLocal.value.price);
       formData.append("_method", 'PUT');
 
-      const response = await userListStore.updateUser(props.userData.id, formData);
-      const { message, user } = response.data
+      const response = await productListStore.updateProduct(productData.value.id, formData);
 
-      emit('userUpdated', user)
-      if (!user.editable) {
-        router.push('/users');
-      }
-
-      userDataLocal.value.password = '';
+      const { message } = response.data
 
       siteStore.alert(message)
     } catch (error) {
@@ -104,15 +99,15 @@ const onSubmit = async () => {
 <template>
   <VRow>
     <VCol cols="12">
-      <!-- 👉 Personal information -->
-      <VCard :title="$t('Personal information')">
+      <!-- 👉 Edit product -->
+      <VCard :title="$t('Edit product')">
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
           <VAvatar
             rounded
             size="100"
             class="me-6"
-            :image="userDataLocal.image"
+            :image="preview"
           />
 
           <!-- 👉 Upload Photo -->
@@ -159,64 +154,80 @@ const onSubmit = async () => {
         </VCardText>
 
         <VDivider />
-
         <VCardText>
-          <VAlert
-            variant="tonal"
-            color="warning"
-            class="mb-4"
-          >
-            <VAlertTitle class="mb-1 text-subtitle-2">
-              {{ $t("Leave password empty in case you don't want to change it") }}
-            </VAlertTitle>
-          </VAlert>
-
           <VForm
             ref="refVForm"
             @submit.prevent="onSubmit"
           >
             <VRow>
               <!-- 👉 Name -->
-              <VCol cols="12">
+              <VCol
+                cols="12"
+                md="6"
+              >
                 <AppTextField
-                  v-model="userDataLocal.name"
+                  v-model="productDataLocal.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Full Name')"
+                  :label="$t('Name')"
                   :error-messages="errors.name"
                 />
               </VCol>
 
-              <!-- 👉 Email -->
-              <VCol cols="12">
+              <!-- 👉 Sku -->
+              <VCol
+                cols="12"
+                md="6"
+              >
                 <AppTextField
-                  v-model="userDataLocal.email"
-                  :rules="[requiredValidator, emailValidator]"
-                  :label="$t('Email')"
-                  :error-messages="errors.email"
-                />
-              </VCol>
-
-              <!-- 👉 Role -->
-              <VCol cols="12">
-                <AppSelect
-                  v-model="userDataLocal.role"
-                  :label="$t('Select Role')"
+                  v-model="productDataLocal.sku"
                   :rules="[requiredValidator]"
-                  :items="roles"
-                  :error-messages="errors.role"
+                  :label="$t('Sku')"
+                  :error-messages="errors.sku"
                 />
               </VCol>
 
-              <!-- 👉 Password -->
-              <VCol cols="12">
+              <!-- 👉 Category -->
+              <VCol
+                cols="12"
+                md="6"
+              >
+                <AppSelect
+                  v-model="productDataLocal.category_id"
+                  :label="$t('Select Category')"
+                  :error-messages="errors.category_id"
+                  :items="categories"
+                  item-title="name"
+                  item-value="id"
+                  clearable
+                  clear-icon="tabler-x"
+                />
+              </VCol>
+
+              <!-- 👉 Price -->
+              <VCol
+                cols="12"
+                md="6"
+              >
                 <AppTextField
-                  v-model="userDataLocal.password"
-                  :label="$t('Password')"
-                  :rules="[lengthValidator(userDataLocal.password, 8), regexValidator(userDataLocal.password, /^(?=.*[a-z])(?=.*[0-9\s\W])/i)]"
-                  :error-messages="errors.password"
-                  :type="isNewPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isNewPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  @click:append-inner="isNewPasswordVisible = !isNewPasswordVisible"
+                  v-model="productDataLocal.price"
+                  :rules="[requiredValidator]"
+                  :label="$t('Price')"
+                  prefix="$"
+                  type="number"
+                  :error-messages="errors.price"
+                />
+              </VCol>
+
+              <!-- 👉 Description -->
+              <VCol cols="12">
+                <AppTextarea
+                  v-model="productDataLocal.description"
+                  :rules="[requiredValidator]"
+                  :label="$t('Description')"
+                  auto-grow
+                  rows="3"
+                  row-height="25"
+                  :error-messages="errors.description"
                 />
               </VCol>
 
@@ -235,3 +246,10 @@ const onSubmit = async () => {
     </VCol>
   </VRow>
 </template>
+
+<route lang="yaml">
+meta:
+  action: Update
+  subject: product
+  title: Edit product
+</route>

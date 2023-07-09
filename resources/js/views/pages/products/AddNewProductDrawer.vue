@@ -1,5 +1,5 @@
 <script setup>
-import { useCategoryListStore } from '@/views/pages/categories/useCategoryListStore'
+import { useProductListStore } from '@/views/pages/products/useProductListStore'
 import { useSiteStore } from '@/views/useSiteStore'
 import {
   requiredValidator,
@@ -15,17 +15,25 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:isDrawerOpen',
-  'categoryAdded',
+  'productAdded',
 ])
 
-const categoryListStore = useCategoryListStore()
+const productListStore = useProductListStore()
 
 const isFormValid = ref(false)
 const refForm = ref()
+const sku = ref('')
 const name = ref('')
+const description = ref('')
+const category_id = ref('')
+const price = ref('')
 
 const errors = ref({
+  sku: undefined,
   name: undefined,
+  description: undefined,
+  category_id: undefined,
+  price: undefined,
 })
 
 // 👉 drawer close
@@ -42,7 +50,11 @@ const onSubmit = async () => {
 
   if (valid) {
     try {
-      const response = await categoryListStore.addCategory({
+
+      const response = await productListStore.addProduct({
+        sku: sku.value,
+        name: name.value,
+        description: name.value,
         name: name.value,
       });
 
@@ -50,7 +62,7 @@ const onSubmit = async () => {
 
       useSiteStore().alert(message);
 
-      emit('categoryAdded');
+      emit('productAdded');
       emit('update:isDrawerOpen', false);
 
       await nextTick(() => {
@@ -83,7 +95,7 @@ const handleDrawerModelValueUpdate = val => {
   >
     <!-- 👉 Title -->
     <AppDrawerHeaderSection
-      :title="$t('Add Category')"
+      :title="$t('Add Product')"
       @cancel="closeNavigationDrawer"
     />
 

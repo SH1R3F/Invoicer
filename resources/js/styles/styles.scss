@@ -1,5 +1,11 @@
 // Write your overrides
-
 .v-table__wrapper{
   min-height: 50px;
 }
+
+.ellipsis-wrapper {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 250px;
+  white-space: nowrap;
+ }
