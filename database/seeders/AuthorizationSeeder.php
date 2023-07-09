@@ -34,6 +34,11 @@ class AuthorizationSeeder extends Seeder
             Permission::updateOrCreate(['name' => 'Read user']),
             Permission::updateOrCreate(['name' => 'Update user']),
             Permission::updateOrCreate(['name' => 'Delete user']),
+
+            Permission::updateOrCreate(['name' => 'Create category']),
+            Permission::updateOrCreate(['name' => 'Read category']),
+            Permission::updateOrCreate(['name' => 'Update category']),
+            Permission::updateOrCreate(['name' => 'Delete category']),
         ];
 
 
