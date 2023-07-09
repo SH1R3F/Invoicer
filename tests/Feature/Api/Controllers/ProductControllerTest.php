@@ -113,4 +113,20 @@ class ProductControllerTest extends TestCase
                 'categories' => []
             ]);
     }
+
+    public function test_it_updates_product(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->json('PUT', action([ProductController::class, 'update'], [$product->id]), [
+            "sku" => Str::random(8),
+            "name" => "test",
+            "description" => "description",
+            "category_id" => $product->category_id,
+            "price" => 100,
+        ])->assertStatus(200);
+
+        $product->refresh();
+        $this->assertEquals('test', $product->name);
+    }
 }

@@ -59,19 +59,16 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product, ProductService $service): JsonResponse
     {
-        //
+        $service->update($request->validated(), $product);
+
+        return response()->json([
+            'message' => __('Product updated successfully'),
+            'product' => new ProductResource($product)
+        ]);
     }
 
     /**
