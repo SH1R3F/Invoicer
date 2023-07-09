@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     /**
      * Roles & Users management
      */
-    Route::resource('roles', RoleController::class)->except(['create', 'show', 'edit']);
-    Route::resource('users', UserController::class)->except(['create', 'edit']);
+    Route::resource('/roles', RoleController::class)->except(['create', 'show', 'edit']);
+    Route::get('/users/export', [UserController::class, 'export']);
+    Route::resource('/users', UserController::class)->except(['create', 'edit']);
 });

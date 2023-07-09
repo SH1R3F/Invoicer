@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\User;
+use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +11,7 @@ use App\Http\Requests\UserRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,6 +35,23 @@ class UserController extends Controller
 
         return UserResource::collection($users)
             ->additional(['roles' => Role::pluck('name')]);
+    }
+
+    /**
+     * Export to excel.
+     */
+    public function export(Request $request): JsonResponse
+    {
+        $this->authorize('view', User::class);
+
+        $users = User::filter($request->only(['role']))
+            ->search($request->q, ['name', 'email'])
+            ->order($request->options['sortBy'] ?? [])
+            ->get();
+
+        Excel::store(new UsersExport($users), $path = 'Exports/Users/Users-' . time() . '.xlsx', 'public');
+
+        return response()->json(['url' => Storage::url($path)]);
     }
 
     /**
