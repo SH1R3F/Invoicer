@@ -79,6 +79,17 @@ class CategoryControllerTest extends TestCase
         $this->assertEquals(1, Category::count());
     }
 
+    public function test_it_shows_single_category(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->json('GET', action([CategoryController::class, 'show'], [$category->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'name', 'editable', 'deletable']);
+    }
+
     public function test_it_updates_category(): void
     {
         $category = Category::factory()->create();
