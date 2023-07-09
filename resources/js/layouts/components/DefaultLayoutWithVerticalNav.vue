@@ -9,6 +9,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
 // @layouts plugin
 import { VerticalNavLayout } from '@layouts'
+import RequestLoader from './RequestLoader.vue'
 
 const { appRouteTransition, isLessThanOverlayNavBreakpoint } = useThemeConfig()
 const { width: windowWidth } = useWindowSize()
@@ -45,9 +46,17 @@ const { width: windowWidth } = useWindowSize()
         :name="appRouteTransition"
         mode="out-in"
       >
-        <Component :is="Component" />
+        <Suspense timeout="0">
+          <template #default>
+            <Component :is="Component" />
+          </template>
+          <template #fallback>
+            <RequestLoader />
+          </template>
+        </Suspense>
       </Transition>
     </RouterView>
+
 
     <!-- 👉 Footer -->
     <template #footer>

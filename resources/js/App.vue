@@ -57,9 +57,7 @@ const { loading } = storeToRefs(siteStore);
       </VSnackbar>
 
 
-      <Suspense>
-        <RouterView />
-      </Suspense>
+      <RouterView />
       <ScrollToTop />
     </VApp>
   </VLocaleProvider>
