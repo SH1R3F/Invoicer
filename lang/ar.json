@@ -131,7 +131,12 @@
     "The Min Character field must be at least {length} characters": "يجب أن يحتوي حقل الأحرف الأدنى على {length} حرف على الأقل",
     "The confirmation field does not match the new password field": "حقل التأكيد غير مُطابق للحقل كلمة المرور الجديدة",
     "Please confirm account deactivation": "برجاء تأكيد تعطيل الحساب",
+    "name": "الاسم",
     "Category deleted successfully": "تم حذف التصنيف بنجاح",
     "Category updated successfully": "تم تعديل التصنيف بنجاح",
-    "Category created successfully": "تم إنشاء التصنيف بنجاح"
+    "Category created successfully": "تم إنشاء التصنيف بنجاح",
+    "Categories": "التصنيفات",
+    "Add New Category": "إضافة تصنيف جديد",
+    "Add Category": "إضافة تصنيف",
+    "Edit category": "تعديل تصنيف"
 }

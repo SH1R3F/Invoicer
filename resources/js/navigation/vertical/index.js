@@ -22,4 +22,11 @@ export default [
       },
     ],
   },
+  {
+    title: 'Categories',
+    to: { name: 'categories' },
+    icon: { icon: 'tabler-category' },
+    action: 'Read',
+    subject: 'category',
+  },
 ]

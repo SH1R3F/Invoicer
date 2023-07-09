@@ -131,7 +131,12 @@
     "The Min Character field must be at least {length} characters": "The Min Character field must be at least {length} characters",
     "The confirmation field does not match the new password field": "The confirmation field does not match the new password field",
     "Please confirm account deactivation": "Please confirm account deactivation",
+    "name": "name",
     "Category deleted successfully": "Category deleted successfully",
     "Category updated successfully": "Category updated successfully",
-    "Category created successfully": "Category created successfully"
+    "Category created successfully": "Category created successfully",
+    "Categories": "Categories",
+    "Add New Category": "Add New Category",
+    "Add Category": "Add Category",
+    "Edit category": "Edit category"
 }
