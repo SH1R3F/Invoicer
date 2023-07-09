@@ -68,4 +68,26 @@ class CategoryControllerTest extends TestCase
             ->assertStatus(200)
             ->assertSeeInOrder([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     }
+
+    public function test_it_creates_new_category(): void
+    {
+        $response = $this->json('POST', action([CategoryController::class, 'store']), [
+            "name" => "test",
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertEquals(1, Category::count());
+    }
+
+    public function test_it_updates_category(): void
+    {
+        $category = Category::factory()->create();
+
+        $this->json('PUT', action([CategoryController::class, 'update'], [$category->id]), [
+            "name" => "test",
+        ])->assertStatus(200);
+
+        $category->refresh();
+        $this->assertEquals('test', $category->name);
+    }
 }
