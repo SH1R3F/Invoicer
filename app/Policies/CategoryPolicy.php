@@ -57,20 +57,4 @@ class CategoryPolicy
     {
         return $user->hasPermissionTo('Delete category');
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Category $category): bool
-    {
-        return $user->hasPermissionTo('Delete category');
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Category $category): bool
-    {
-        return $user->hasPermissionTo('Delete category');
-    }
 }
