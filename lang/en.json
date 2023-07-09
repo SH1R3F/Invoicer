@@ -136,7 +136,22 @@
     "Category updated successfully": "Category updated successfully",
     "Category created successfully": "Category created successfully",
     "Categories": "Categories",
+    "Create category": "Create category",
+    "Read category": "Read category",
+    "Update category": "Update category",
+    "Delete category": "Delete category",
     "Add New Category": "Add New Category",
     "Add Category": "Add Category",
-    "Edit category": "Edit category"
+    "Edit category": "Edit category",
+    "Product deleted successfully": "Product deleted successfully",
+    "Product updated successfully": "Product updated successfully",
+    "Product created successfully": "Product created successfully",
+    "Products": "Products",
+    "Create product": "Create product",
+    "Read product": "Read product",
+    "Update product": "Update product",
+    "Delete product": "Delete product",
+    "Add New Product": "Add New Product",
+    "Add Product": "Add Product",
+    "Edit product": "Edit product"
 }
