@@ -59,5 +59,5 @@ Route::middleware('auth:sanctum')->group(function () {
     /**
      * Categories management
      */
-    Route::resource('/categories', CategoryController::class)->except(['create', 'show', 'edit']);
+    Route::resource('/categories', CategoryController::class)->except(['create', 'edit']);
 });
