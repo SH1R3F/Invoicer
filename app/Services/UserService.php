@@ -51,7 +51,7 @@ class UserService
         // Upload avatar
         if ($data['avatar'] instanceof UploadedFile) {
             $data['avatar'] = $data['avatar']->store("users/{$user->id}");
-            Storage::delete($user->avatar);
+            if ($user->avatar) Storage::delete($user->avatar);
         } else {
             unset($data['avatar']);
         }

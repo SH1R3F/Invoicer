@@ -35,7 +35,7 @@ class ProfileController extends Controller
         // Upload avatar
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->store("users/{$request->user()->id}");
-            Storage::delete($request->user()->avatar);
+            if ($request->user()->avatar) Storage::delete($request->user()->avatar);
         } else {
             unset($data['avatar']);
         }
