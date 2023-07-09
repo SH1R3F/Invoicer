@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Exports\ProductsExport;
+use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Services\ProductService;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
@@ -25,14 +27,33 @@ class ProductController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $products = Product::filter($request->only(['category_id']))
+        $products = Product::with('category')
+            ->filter($request->only(['category_id']))
             ->search($request->q, ['name', 'sku'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
             ->withQueryString();
 
         return ProductResource::collection($products)
-            ->additional(['categories' => Category::pluck('name', 'id')]);
+            ->additional(['categories' => Category::get(['id', 'name'])]);
+    }
+
+    /**
+     * Export to excel.
+     */
+    public function export(Request $request): JsonResponse
+    {
+        $this->authorize('view', Product::class);
+
+        $users = Product::with('category')
+            ->filter($request->only(['category_id']))
+            ->search($request->q, ['name', 'sku'])
+            ->order($request->options['sortBy'] ?? [])
+            ->get();
+
+        Excel::store(new ProductsExport($users), $path = 'Exports/Products/Products-' . time() . '.xlsx', 'public');
+
+        return response()->json(['url' => Storage::url($path)]);
     }
 
     /**
@@ -55,7 +76,7 @@ class ProductController extends Controller
     {
         return response()->json([
             'product'    => new ProductResource($product),
-            'categories' => Category::pluck('name', 'id')
+            'categories' => Category::get(['id', 'name'])
         ]);
     }
 

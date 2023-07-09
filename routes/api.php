@@ -65,5 +65,6 @@ Route::middleware('auth:sanctum')->group(function () {
     /**
      * Products management
      */
+    Route::get('/products/export', [ProductController::class, 'export']);
     Route::resource('/products', ProductController::class)->except(['create', 'edit']);
 });
