@@ -52,10 +52,9 @@ class UserRequest extends FormRequest
         ];
     }
 
-
-    protected function prepareForValidation()
+    protected function passedValidation()
     {
-        if (request()->isMethod('POST')) {
+        if (!$this->hasFile('avatar')) {
             unset($this->avatar);
         }
     }

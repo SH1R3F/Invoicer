@@ -28,4 +28,11 @@ class UpdateProfileRequest extends FormRequest
             'avatar'   => ['required', new UrlOrFile]
         ];
     }
+
+    protected function passedValidation()
+    {
+        if (!$this->hasFile('avatar')) {
+            unset($this->avatar);
+        }
+    }
 }

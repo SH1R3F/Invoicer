@@ -49,11 +49,9 @@ class UserService
     private function updateAvatar(array &$data, User $user): void
     {
         // Upload avatar
-        if ($data['avatar'] instanceof UploadedFile) {
+        if (isset($data['avatar'])) {
             $data['avatar'] = $data['avatar']->store("users/{$user->id}");
             if ($user->avatar) Storage::delete($user->avatar);
-        } else {
-            unset($data['avatar']);
         }
     }
 }
