@@ -173,5 +173,11 @@
     "Delete tax": "Delete tax",
     "Add New Tax": "Add New Tax",
     "Add Tax": "Add Tax",
-    "Edit tax": "Edit tax"
+    "Edit tax": "Edit tax",
+    "Percentage": "Percentage",
+    "Fixed": "Fixed",
+    "Type": "Type",
+    "Value": "Value",
+    "Default": "Default",
+    "Not default": "Not default"
 }

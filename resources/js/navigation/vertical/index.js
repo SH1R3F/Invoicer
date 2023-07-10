@@ -36,4 +36,11 @@ export default [
     action: 'Read',
     subject: 'product',
   },
+  {
+    title: 'Taxes',
+    to: { name: 'taxes' },
+    icon: { icon: 'tabler-receipt-tax' },
+    action: 'Read',
+    subject: 'tax',
+  },
 ]

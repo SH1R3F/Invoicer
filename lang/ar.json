@@ -173,5 +173,11 @@
     "Create tax": "إنشاء ضريبة",
     "Read tax": "عرض  ضريبة",
     "Update tax": "تحديث ضريبة",
-    "Delete tax": "حذف ضريبة"
+    "Delete tax": "حذف ضريبة",
+    "Percentage": "نسبة",
+    "Fixed": "ثابتة",
+    "Type": "النوع",
+    "Value": "القيمة",
+    "Default": "إفتراضي",
+    "Not default": "غير إفتراضي"
 }
