@@ -100,4 +100,14 @@ class TaxControllerTest extends TestCase
         $tax->refresh();
         $this->assertEquals('test', $tax->name);
     }
+
+    public function test_it_deletes_tax(): void
+    {
+        $tax = Tax::factory()->create();
+        $response = $this->json('DELETE', action([TaxController::class, 'destroy'], [$tax->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Tax deleted successfully']);
+    }
 }
