@@ -53,19 +53,16 @@ class TaxController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tax $tax)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tax $tax)
+    public function update(TaxRequest $request, Tax $tax): JsonResponse
     {
-        //
+        $tax->update($request->validated());
+
+        return response()->json([
+            'message' => __('Tax updated successfully'),
+            'tax'     => new TaxResource($tax)
+        ]);
     }
 
     /**

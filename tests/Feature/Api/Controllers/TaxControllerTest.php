@@ -85,4 +85,19 @@ class TaxControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(['id', 'name', 'value', 'type', 'default']);
     }
+
+    public function test_it_updates_tax(): void
+    {
+        $tax = Tax::factory()->create();
+
+        $this->json('PUT', action([TaxController::class, 'update'], [$tax->id]), [
+            "name" => "test",
+            "value" => 15,
+            "default" => false,
+            "type" => 'percentage',
+        ])->assertStatus(200);
+
+        $tax->refresh();
+        $this->assertEquals('test', $tax->name);
+    }
 }
