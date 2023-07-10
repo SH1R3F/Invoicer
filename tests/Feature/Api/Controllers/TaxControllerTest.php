@@ -1,0 +1,59 @@
+<?php
+
+namespace Tests\Feature\Api\Controllers;
+
+use App\Models\Tax;
+use Tests\TestCase;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
+use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Testing\WithFaker;
+use App\Http\Controllers\Api\V1\TaxController;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class TaxControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed();
+        $this->user = User::factory()->create();
+        $this->user->syncRoles(Role::where('name', 'superadmin')->first());
+        Sanctum::actingAs($this->user);
+    }
+
+    public function test_it_lists_paginated_taxes(): void
+    {
+        Tax::factory(2)->create();
+
+        $response = $this->json('GET', action([TaxController::class, 'index']));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(2, 'data')
+            ->assertJsonStructure(['data', 'meta', 'links'])
+            ->assertJsonPath('meta.total', 2)
+            ->assertJsonPath('meta.per_page', 10);
+    }
+
+
+    public function test_it_lists_searched_products(): void
+    {
+        Tax::factory(4)->create();
+        Tax::factory()->create(['name' => 'Search name']);
+
+        $response = $this->json('GET', action([TaxController::class, 'index']), [
+            'q' => 'Search name'
+        ]);
+
+        $this->assertEquals(5, Tax::count());
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(1, 'data');
+    }
+}
