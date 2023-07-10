@@ -23,7 +23,7 @@ class QuoteController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $quotes = Quote::with('client')
+        $quotes = Quote::with('client:id,name,email,avatar')
             ->search($request->q, ['client.name', 'quote_number'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
