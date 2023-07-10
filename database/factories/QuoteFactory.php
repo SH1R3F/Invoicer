@@ -21,7 +21,7 @@ class QuoteFactory extends Factory
     {
         return [
             'user_id'        => User::factory()->create()->id,
-            'quote_number'   => str_pad(((string)((int)Quote::latest()->first()?->quote_number ?? 0) + 1), 4, '0', STR_PAD_LEFT),
+            'quote_number'   => str_pad(((string)(fake()->unique()->randomNumber(3)) + 1), 4, '0', STR_PAD_LEFT),
             'quote_date'     => fake()->date,
             'due_date'       => fake()->date,
             'status'         => fake()->randomElement(QuoteStatus::cases()),
