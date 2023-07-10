@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TaxRequest;
 use App\Http\Resources\TaxResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaxController extends Controller
@@ -33,7 +34,7 @@ class TaxController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TaxRequest $request)
+    public function store(TaxRequest $request): JsonResponse
     {
         $tax = Tax::create($request->validated());
 
@@ -46,9 +47,9 @@ class TaxController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tax $tax)
+    public function show(Tax $tax): JsonResource
     {
-        //
+        return new TaxResource($tax);
     }
 
     /**

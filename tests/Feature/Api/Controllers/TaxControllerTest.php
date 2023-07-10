@@ -74,4 +74,15 @@ class TaxControllerTest extends TestCase
         $response->assertStatus(201);
         $this->assertEquals($tax['name'], Tax::first()->name);
     }
+
+    public function test_it_shows_single_tax(): void
+    {
+        $tax = Tax::factory()->create();
+
+        $response = $this->json('GET', action([TaxController::class, 'show'], [$tax->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'name', 'value', 'type', 'default']);
+    }
 }
