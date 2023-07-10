@@ -60,6 +60,13 @@ const permissions = ref([
     'Update product': false,
     'Delete product': false,
   },
+  {
+    name: 'Taxes',
+    'Create tax': false,
+    'Read tax': false,
+    'Update tax': false,
+    'Delete tax': false,
+  },
 ])
 
 const isSelectAll = ref(false)
