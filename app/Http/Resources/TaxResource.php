@@ -19,6 +19,7 @@ class TaxResource extends JsonResource
             'name' => $this->name,
             'value' => $this->value,
             'type' => $this->type,
+            'tax' => $this->type == 'percentage' ? "{$this->value}%" : number_format($this->value, 2) . '$',
             'default' => $this->default,
 
             'editable'  => $request->user()?->can('update', $this->resource),
