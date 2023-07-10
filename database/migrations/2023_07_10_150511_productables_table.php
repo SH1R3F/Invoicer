@@ -12,6 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // We make it this way but we make it a model itself that might be a product or not!
         Schema::create('productables', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Product::class)->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity');
             $table->json('taxes')->nullable();
             $table->morphs('productable');
+            $table->timestamps();
         });
     }
 

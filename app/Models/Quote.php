@@ -7,8 +7,8 @@ use App\Enums\QuoteStatus;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Quote extends Model
 {
@@ -34,8 +34,8 @@ class Quote extends Model
     /**
      * Relationship to products
      */
-    public function products(): MorphToMany
+    public function productables(): MorphMany
     {
-        return $this->morphToMany(Product::class, 'productable')->withPivot(['product_id', 'name', 'price', 'quantity', 'taxes']);
+        return $this->morphMany(Productable::class, 'productable');
     }
 }
