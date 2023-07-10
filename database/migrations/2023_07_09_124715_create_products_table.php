@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->index();
             $table->text('description');
             $table->string('image')->nullable();
-            $table->foreignIdFor(Category::class)->constrained()->nullOnDelete()->cascadeOnUpdate()->index()->nullable();
+            $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate()->index();
             $table->unsignedInteger('price');
             $table->timestamps();
         });
