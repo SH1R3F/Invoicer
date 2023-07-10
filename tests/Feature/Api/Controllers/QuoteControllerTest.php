@@ -99,7 +99,7 @@ class QuoteControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonStructure(['id', 'user', 'quote_number', 'productables' => []]);
+            ->assertJsonStructure(['id', 'user', 'quote_number', 'quotables' => []]);
     }
 
     public function test_it_deletes_quote_with_its_quotables(): void
