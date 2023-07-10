@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\QuoteResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuoteController extends Controller
 {
@@ -16,9 +18,15 @@ class QuoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResource
     {
-        //
+        $products = Quote::with('client')
+            ->search($request->q, ['client.name'])
+            ->order($request->options['sortBy'] ?? [])
+            ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
+            ->withQueryString();
+
+        return QuoteResource::collection($products);
     }
 
     /**

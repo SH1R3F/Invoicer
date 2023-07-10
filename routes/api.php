@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\APIController;
 use App\Http\Controllers\Api\V1\TaxController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\QuoteController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
@@ -73,4 +74,9 @@ Route::middleware('auth:sanctum')->group(function () {
      * Taxes management
      */
     Route::resource('/taxes', TaxController::class)->except(['create', 'edit']);
+
+    /**
+     * Quotes management
+     */
+    Route::resource('/quotes', QuoteController::class)->except(['create', 'edit']);
 });
