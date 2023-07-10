@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Tax;
 use Illuminate\Http\Request;
+use App\Http\Requests\TaxRequest;
 use App\Http\Resources\TaxResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -30,19 +31,16 @@ class TaxController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaxRequest $request)
     {
-        //
+        $tax = Tax::create($request->validated());
+
+        return response()->json([
+            'message' => __('Tax created successfully'),
+            'tax'     => new TaxResource($tax)
+        ], 201);
     }
 
     /**

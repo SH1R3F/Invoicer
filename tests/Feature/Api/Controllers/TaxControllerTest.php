@@ -56,4 +56,22 @@ class TaxControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
+    public function test_it_lists_ordered_products(): void
+    {
+        Tax::factory(10)->create();
+        $response = $this->json('GET', action([TaxController::class, 'index']));
+
+        $response
+            ->assertStatus(200)
+            ->assertSeeInOrder([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    }
+
+    public function test_it_creates_new_tax(): void
+    {
+        $tax = Tax::factory()->make()->toArray();
+        $response = $this->json('POST', action([TaxController::class, 'store']), $tax);
+
+        $response->assertStatus(201);
+        $this->assertEquals($tax['name'], Tax::first()->name);
+    }
 }
