@@ -48,9 +48,9 @@ class QuoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Quote $quote)
+    public function show(Quote $quote) //: JsonResource
     {
-        //
+        return new QuoteResource($quote->load('client:id,name', 'productables'));
     }
 
     /**

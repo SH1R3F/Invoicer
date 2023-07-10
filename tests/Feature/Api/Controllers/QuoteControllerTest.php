@@ -90,4 +90,15 @@ class QuoteControllerTest extends TestCase
         $this->assertEquals('0001', Quote::first()->quote_number);
         $this->assertDatabaseCount('productables', 2);
     }
+
+    public function test_it_shows_single_quote_with_products(): void
+    {
+        $quote = Quote::factory()->create();
+
+        $response = $this->json('GET', action([QuoteController::class, 'show'], [$quote->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure(['id', 'user', 'quote_number', 'productables' => []]);
+    }
 }
