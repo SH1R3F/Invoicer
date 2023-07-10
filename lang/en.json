@@ -179,5 +179,16 @@
     "Type": "Type",
     "Value": "Value",
     "Default": "Default",
-    "Not default": "Not default"
+    "Not default": "Not default",
+    "Quote deleted successfully": "Quote deleted successfully",
+    "Quote updated successfully": "Quote updated successfully",
+    "Quote created successfully": "Quote created successfully",
+    "Quotes": "Quotes",
+    "Create quote": "Create quote",
+    "Read quote": "Read quote",
+    "Update quote": "Update quote",
+    "Delete quote": "Delete quote",
+    "Add New Quote": "Add New Quote",
+    "Add Quote": "Add Quote",
+    "Edit quote": "Edit quote"
 }

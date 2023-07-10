@@ -179,5 +179,16 @@
     "Type": "النوع",
     "Value": "القيمة",
     "Default": "إفتراضي",
-    "Not default": "غير إفتراضي"
+    "Not default": "غير إفتراضي",
+    "Quote deleted successfully": "تم حذف عرض السعر بنجاح",
+    "Quote updated successfully": "تم تعديل عرض السعر بنجاح",
+    "Quote created successfully": "تم إنشاء عرض السعر بنجاح",
+    "Quotes": "عروض الأسعار",
+    "Add New Quote": "إضافة عرض سعر جديد",
+    "Add Quote": "إضافة عرض سعر",
+    "Edit quote": "تعديل عرض سعر",
+    "Create quote": "إنشاء عرض سعر",
+    "Read quote": "عرض  عرض سعر",
+    "Update quote": "تحديث عرض سعر",
+    "Delete quote": "حذف عرض سعر"
 }
