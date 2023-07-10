@@ -166,9 +166,12 @@ const deleteTax = async id => {
 
             <!-- Default tax -->
             <template #item.default="{ item }">
-              <div class="text-base">
+              <VChip
+                :color="item.raw.default ? 'success' : ''"
+                class="text-base"
+              >
                 {{ item.raw.default ? $t('Default') : $t('Not default') }}
-              </div>
+              </VChip>
             </template>
 
             <!-- Actions -->
