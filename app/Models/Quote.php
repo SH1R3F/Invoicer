@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\QuoteStatus;
 use App\Traits\Orderable;
+use App\Enums\QuoteStatus;
 use App\Traits\Searchable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Quote extends Model
 {
@@ -28,5 +29,13 @@ class Quote extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Relationship to products
+     */
+    public function products(): MorphToMany
+    {
+        return $this->morphToMany(Product::class, 'productable');
     }
 }

@@ -33,6 +33,30 @@ class DatabaseSeeder extends Seeder
         // Just for testing
         Product::factory(30)->create();
         Tax::factory(10)->create();
-        Quote::factory(20)->create();
+        Quote::factory(20)->create()->each(function (Quote $quote) {
+            $ids = array_rand(range(1, 30), rand(2, 7));
+            $products = [];
+            foreach ($ids as $k => $id) {
+                $id = $id + 1;
+                $product = Product::find($id);
+                $taxes = [];
+                $tax_ids = array_rand(range(1, 10), rand(2, 3));
+                if (rand(0, 1)) {
+                    foreach ($tax_ids as $tax_id) {
+                        $tax_id = $tax_id + 1;
+                        $tax = Tax::find($tax_id);
+                        $taxes[] = $tax->toArray();
+                    }
+                }
+
+                $products[$id] = [
+                    'name' => $product->name,
+                    'price' => $product->getAttributes()['price'],
+                    'quantity' => rand(1, 7),
+                    'taxes' => json_encode($taxes),
+                ];
+            }
+            $quote->products()->sync($products);
+        });
     }
 }
