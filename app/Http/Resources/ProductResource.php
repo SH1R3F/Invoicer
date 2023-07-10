@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             'image' => $this->image ? Storage::url($this->image) : null,
             'category_id' => $this->category_id,
             'category' => $this->whenLoaded('category'),
-            'price' => $this->price,
+            'price' => number_format($this->price, 2),
             'editable'  => $request->user()?->can('update', $this->resource),
             'deletable' => $request->user()?->can('delete', $this->resource),
         ];
