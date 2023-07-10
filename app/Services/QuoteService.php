@@ -8,14 +8,31 @@ class QuoteService
 {
 
     /**
-     * Store new quote & sync products
+     * Store new quote & sync quotable products
      */
     public function store(array $data): Quote
     {
         $data['quote_number'] = $this->newQuoteNumber();
         $quote = Quote::create($data);
 
-        $products = collect($data['products'])->map(function ($product) {
+        $this->createQuotables($data['products'], $quote);
+
+        return $quote;
+    }
+
+    /**
+     * Update existing quote & sync quotable products
+     */
+    public function update(array $data, Quote $quote): void
+    {
+        $quote->update($data);
+
+        $this->createQuotables($data['products'], $quote);
+    }
+
+    private function createQuotables(array $products, Quote &$quote): void
+    {
+        $products = collect($products)->map(function ($product) {
             return [
                 'product_id' => $product['product_id'] ?? null,
                 'name' => $product['product_name'],
@@ -24,9 +41,8 @@ class QuoteService
                 'taxes' => $product['product_taxes'] ?? []
             ];
         })->toArray();
+        $quote->quotables()->delete();
         $quote->quotables()->createMany($products);
-
-        return $quote;
     }
 
     private function newQuoteNumber(): String
