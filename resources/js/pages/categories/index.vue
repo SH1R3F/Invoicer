@@ -31,11 +31,10 @@ const headers = [
     key: 'name',
   },
 
-  // TODO
-  // {
-  //   title: t('Products'),
-  //   key: 'products',
-  // },
+  {
+    title: t('Products'),
+    key: 'products_count',
+  },
   {
     title: t('Actions'),
     key: 'actions',

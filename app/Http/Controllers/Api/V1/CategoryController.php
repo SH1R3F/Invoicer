@@ -22,7 +22,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $categories = Category::search($request->q, ['name'])
+        $categories = Category::withCount('products')
+            ->search($request->q, ['name'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
             ->withQueryString();

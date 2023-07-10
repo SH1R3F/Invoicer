@@ -17,6 +17,7 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'products_count' => $this->whenCounted('products'),
             'editable'  => $request->user()?->can('update', $this->resource),
             'deletable' => $request->user()?->can('delete', $this->resource),
         ];
