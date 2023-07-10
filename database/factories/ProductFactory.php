@@ -23,7 +23,7 @@ class ProductFactory extends Factory
             'name' => fake()->sentence,
             'description' => fake()->paragraph(3),
             'category_id' => Category::factory()->create()->id,
-            'price' => rand(100_00, 1000_00)
+            'price' => rand(100, 1000)
         ];
     }
 }
