@@ -28,6 +28,9 @@ class QuoteResource extends JsonResource
             'notes' => $this->notes,
             'quotables' => ProductableResource::collection($this->whenLoaded('quotables')),
             'amount' => number_format($this->amount, 2),
+
+            'editable'  => $request->user()?->can('update', $this->resource),
+            'deletable' => $request->user()?->can('delete', $this->resource),
         ];
     }
 }
