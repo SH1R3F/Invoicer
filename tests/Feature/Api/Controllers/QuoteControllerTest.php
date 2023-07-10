@@ -91,6 +91,48 @@ class QuoteControllerTest extends TestCase
         $this->assertDatabaseCount('productables', 2);
     }
 
+    public function test_it_updates_quote_with_products(): void
+    {
+        // Create a quote with products
+        $products = Product::factory(2)->create();
+        $quote = Quote::factory()->create();
+        $quote->quotables()->createMany($products->map(function (Product $product) {
+            return [
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->getAttribute('price'),
+                'quantity' => 2,
+                'taxes' => []
+            ];
+        })->toArray());
+
+        // Test it
+        $this->assertDatabaseCount('productables', 2);
+
+        // Update it
+        $response = $this->json('PUT', action([QuoteController::class, 'update'], [$quote->id]), [
+            "user_id" => 1,
+            "quote_date" => "2003-07-16",
+            "due_date" => "2003-07-16",
+            "discount_type" => "percentage",
+            "discount_value" => 5,
+            "notes" => "test updates",
+            "products" => [
+                [
+                    "product_name" => "new test",
+                    "product_price" => 2423,
+                    "product_quantity" => 4,
+                    "product_taxes" => []
+                ]
+            ]
+        ]);
+
+        // Test update
+        $response->assertStatus(200);
+        $this->assertEquals('test updates', Quote::first()->notes);
+        $this->assertDatabaseCount('productables', 1);
+    }
+
     public function test_it_shows_single_quote_with_products(): void
     {
         $quote = Quote::factory()->create();
