@@ -26,6 +26,7 @@ class QuoteResource extends JsonResource
             'discount_value' => $this->discount_value,
             'discount' => $this->discount_type == 'percentage' ? "{$this->discount_value}%" : number_format($this->discount_value, 2) . '$',
             'notes' => $this->notes,
+            'productables' => ProductableResource::collection($this->whenLoaded('productables'))
         ];
     }
 }
