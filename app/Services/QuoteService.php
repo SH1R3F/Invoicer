@@ -24,7 +24,7 @@ class QuoteService
                 'taxes' => $product['product_taxes'] ?? []
             ];
         })->toArray();
-        $quote->productables()->createMany($products);
+        $quote->quotables()->createMany($products);
 
         return $quote;
     }

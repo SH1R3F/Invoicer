@@ -34,7 +34,7 @@ class Quote extends Model
     /**
      * Relationship to products
      */
-    public function productables(): MorphMany
+    public function quotables(): MorphMany
     {
         return $this->morphMany(Productable::class, 'productable');
     }

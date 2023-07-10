@@ -23,13 +23,13 @@ class QuoteController extends Controller
      */
     public function index(Request $request): JsonResource
     {
-        $products = Quote::with('client')
+        $quotes = Quote::with('client')
             ->search($request->q, ['client.name', 'quote_number'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
             ->withQueryString();
 
-        return QuoteResource::collection($products);
+        return QuoteResource::collection($quotes);
     }
 
     /**
@@ -48,17 +48,9 @@ class QuoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Quote $quote) //: JsonResource
+    public function show(Quote $quote): JsonResource
     {
-        return new QuoteResource($quote->load('client:id,name', 'productables'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Quote $quote)
-    {
-        //
+        return new QuoteResource($quote->load('client:id,name', 'quotables'));
     }
 
     /**
@@ -72,8 +64,13 @@ class QuoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Quote $quote)
+    public function destroy(Quote $quote): JsonResponse
     {
-        //
+        $quote->quotables()->delete();
+        $quote->delete();
+
+        return response()->json([
+            'message' => __('Quote deleted successfully'),
+        ]);
     }
 }

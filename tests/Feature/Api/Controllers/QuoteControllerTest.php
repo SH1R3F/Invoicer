@@ -101,4 +101,30 @@ class QuoteControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(['id', 'user', 'quote_number', 'productables' => []]);
     }
+
+    public function test_it_deletes_quote_with_its_quotables(): void
+    {
+        $products = Product::factory(2)->create();
+        $quote = Quote::factory()->create();
+
+        $quote->quotables()->createMany($products->map(function (Product $product) {
+            return [
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->getAttribute('price'),
+                'quantity' => 2,
+                'taxes' => []
+            ];
+        })->toArray());
+
+        $this->assertDatabaseCount('productables', 2);
+
+
+        $response = $this->json('DELETE', action([QuoteController::class, 'destroy'], [$quote->id]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => 'Quote deleted successfully']);
+        $this->assertDatabaseCount('productables', 0);
+    }
 }
