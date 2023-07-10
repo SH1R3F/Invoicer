@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('quote_number')->index();
+            $table->string('quote_number')->unique()->index();
             $table->date('quote_date');
             $table->date('due_date');
             $table->string('status')->default(QuoteStatus::DRAFT->value);
