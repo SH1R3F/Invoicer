@@ -73,7 +73,7 @@ class QuoteControllerTest extends TestCase
                 [
                     "product_id" => $product->id,
                     "product_name" => $product->name,
-                    "product_price" => $product->getAttribute('price'),
+                    "product_price" => $product->price,
                     "product_quantity" => 3,
                     "product_taxes" => []
                 ],
@@ -100,7 +100,7 @@ class QuoteControllerTest extends TestCase
             return [
                 'product_id' => $product->id,
                 'name' => $product->name,
-                'price' => $product->getAttribute('price'),
+                'price' => $product->price,
                 'quantity' => 2,
                 'taxes' => []
             ];
@@ -153,7 +153,7 @@ class QuoteControllerTest extends TestCase
             return [
                 'product_id' => $product->id,
                 'name' => $product->name,
-                'price' => $product->getAttribute('price'),
+                'price' => $product->price,
                 'quantity' => 2,
                 'taxes' => []
             ];
