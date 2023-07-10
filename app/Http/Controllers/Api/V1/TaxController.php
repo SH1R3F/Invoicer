@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Tax;
 use Illuminate\Http\Request;
+use App\Http\Resources\TaxResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaxController extends Controller
 {
@@ -17,9 +19,14 @@ class TaxController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResource
     {
-        //
+        $taxes = Tax::search($request->q, ['name'])
+            ->order($request->options['sortBy'] ?? [])
+            ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
+            ->withQueryString();
+
+        return TaxResource::collection($taxes);
     }
 
     /**

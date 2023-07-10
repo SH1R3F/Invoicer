@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\APIController;
+use App\Http\Controllers\Api\V1\TaxController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -67,4 +68,9 @@ Route::middleware('auth:sanctum')->group(function () {
      */
     Route::get('/products/export', [ProductController::class, 'export']);
     Route::resource('/products', ProductController::class)->except(['create', 'edit']);
+
+    /**
+     * Taxes management
+     */
+    Route::resource('/taxes', TaxController::class)->except(['create', 'edit']);
 });
