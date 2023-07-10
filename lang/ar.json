@@ -161,5 +161,6 @@
     "Category": "التصنيف",
     "Price": "السعر",
     "Leave empty for auto generate": "أتركها فارغة للمىء تلقائيًا",
-    "Sku": "معرف المنتج"
+    "Sku": "معرف المنتج",
+    "Price without taxes": "السعر غير شامل الضريبة"
 }

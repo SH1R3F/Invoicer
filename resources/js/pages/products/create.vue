@@ -225,6 +225,8 @@ const onSubmit = async () => {
                   prefix="$"
                   type="number"
                   :error-messages="errors.price"
+                  :hint="$t('Price without taxes')"
+                  persistent-hint
                 />
               </VCol>
 

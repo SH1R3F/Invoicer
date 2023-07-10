@@ -161,5 +161,6 @@
     "Category": "Category",
     "Price": "Price",
     "Leave empty for auto generate": "Leave empty for auto generate",
-    "Sku": "Sku"
+    "Sku": "Sku",
+    "Price without taxes": "Price without taxes"
 }
