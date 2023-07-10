@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,17 @@ class Productable extends Model
         'quantity' => 'integer',
         'taxes' => 'array'
     ];
+
+    /**
+     * Get & Set the displayed product price
+     */
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn (int $value) => $value / 100,
+            set: fn (int|float $value) => $value * 100,
+        );
+    }
 
     /**
      * Relationship to products
