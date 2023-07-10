@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Quote;
 use Illuminate\Http\Request;
+use App\Services\QuoteService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\QuoteRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuoteResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +24,7 @@ class QuoteController extends Controller
     public function index(Request $request): JsonResource
     {
         $products = Quote::with('client')
-            ->search($request->q, ['client.name'])
+            ->search($request->q, ['client.name', 'quote_number'])
             ->order($request->options['sortBy'] ?? [])
             ->paginate($request->options['itemsPerPage'] ?? 10, ['*'], 'page', $request->options['page'] ?? 1)
             ->withQueryString();
@@ -30,19 +33,16 @@ class QuoteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(QuoteRequest $request, QuoteService $service): JsonResponse
     {
-        //
+        $quote = $service->store($request->validated());
+
+        return response()->json([
+            'message' => __('Quote created successfully'),
+            'quote'   => new QuoteResource($quote)
+        ], 201);
     }
 
     /**

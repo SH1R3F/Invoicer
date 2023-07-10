@@ -9,6 +9,7 @@ use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Http\Controllers\Api\V1\QuoteController;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class QuoteControllerTest extends TestCase
@@ -55,5 +56,38 @@ class QuoteControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonCount(1, 'data');
+    }
+
+    public function test_it_creates_new_quote_with_products(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->json('POST', action([QuoteController::class, 'store']), [
+            "user_id" => 1,
+            "quote_date" => "2003-07-16",
+            "due_date" => "2003-07-16",
+            "discount_type" => "percentage",
+            "discount_value" => 5,
+            "notes" => "my deepest thoughts",
+            "products" => [
+                [
+                    "product_id" => $product->id,
+                    "product_name" => $product->name,
+                    "product_price" => $product->getAttribute('price'),
+                    "product_quantity" => 3,
+                    "product_taxes" => []
+                ],
+                [
+                    "product_name" => "new test",
+                    "product_price" => 2423,
+                    "product_quantity" => 4,
+                    "product_taxes" => []
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertEquals('0001', Quote::first()->quote_number);
+        $this->assertDatabaseCount('productables', 2);
     }
 }

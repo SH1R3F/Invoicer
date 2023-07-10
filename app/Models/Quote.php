@@ -36,6 +36,6 @@ class Quote extends Model
      */
     public function products(): MorphToMany
     {
-        return $this->morphToMany(Product::class, 'productable');
+        return $this->morphToMany(Product::class, 'productable')->withPivot(['product_id', 'name', 'price', 'quantity', 'taxes']);
     }
 }
