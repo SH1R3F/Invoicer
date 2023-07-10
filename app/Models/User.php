@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -64,5 +65,13 @@ class User extends Authenticatable
         if (isset($filters['role'])) {
             $query->whereHas('roles', fn ($query) => $query->where('name', $filters['role']));
         }
+    }
+
+    /**
+     * Relationship to quotes
+     */
+    public function quotes(): HasMany
+    {
+        return $this->hasMany(Quote::class);
     }
 }
