@@ -49,6 +49,11 @@ class AuthorizationSeeder extends Seeder
             Permission::updateOrCreate(['name' => 'Read tax']),
             Permission::updateOrCreate(['name' => 'Update tax']),
             Permission::updateOrCreate(['name' => 'Delete tax']),
+
+            Permission::updateOrCreate(['name' => 'Create quote']),
+            Permission::updateOrCreate(['name' => 'Read quote']),
+            Permission::updateOrCreate(['name' => 'Update quote']),
+            Permission::updateOrCreate(['name' => 'Delete quote']),
         ];
 
 

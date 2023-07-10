@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Tax;
 use App\Models\User;
+use App\Models\Quote;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -25,5 +29,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $superadmin->syncRoles(Role::where('name', 'superadmin')->first());
+
+        // Just for testing
+        Product::factory(30)->create();
+        Tax::factory(10)->create();
+        Quote::factory(20)->create();
     }
 }
