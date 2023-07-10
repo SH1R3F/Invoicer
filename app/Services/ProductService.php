@@ -13,7 +13,7 @@ class ProductService
      */
     public function store(array $data): Product
     {
-        $data['sku'] = $data['sku'] ?? Str::random(8);
+        $data['sku'] = $data['sku'] ?? Product::uniqueSku();
         $this->uploadImage($data);
 
         $product = Product::create($data);

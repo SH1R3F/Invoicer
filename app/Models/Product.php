@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Traits\Orderable;
 use App\Traits\Searchable;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -44,5 +45,19 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Unique sku generator method
+     */
+    public static function uniqueSku(): string
+    {
+        $sku = Str::random(8);
+
+        while (static::where('sku', $sku)->exists()) {
+            $sku = Str::random(8);
+        }
+
+        return $sku;
     }
 }
