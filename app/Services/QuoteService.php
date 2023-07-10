@@ -21,10 +21,10 @@ class QuoteService
                 'name' => $product['product_name'],
                 'price' => $product['product_price'],
                 'quantity' => $product['product_quantity'],
-                'taxes' => json_encode($product['product_taxes'] ?? [])
+                'taxes' => $product['product_taxes'] ?? []
             ];
         })->toArray();
-        $quote->products()->sync($products);
+        $quote->productables()->createMany($products);
 
         return $quote;
     }
