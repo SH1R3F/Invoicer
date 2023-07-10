@@ -162,5 +162,16 @@
     "Price": "السعر",
     "Leave empty for auto generate": "أتركها فارغة للمىء تلقائيًا",
     "Sku": "معرف المنتج",
-    "Price without taxes": "السعر غير شامل الضريبة"
+    "Price without taxes": "السعر غير شامل الضريبة",
+    "Tax deleted successfully": "تم حذف الضريبة بنجاح",
+    "Tax updated successfully": "تم تعديل الضريبة بنجاح",
+    "Tax created successfully": "تم إنشاء الضريبة بنجاح",
+    "Taxes": "الضرائب",
+    "Add New Tax": "إضافة ضريبة جديد",
+    "Add Tax": "إضافة ضريبة",
+    "Edit tax": "تعديل ضريبة",
+    "Create tax": "إنشاء ضريبة",
+    "Read tax": "عرض  ضريبة",
+    "Update tax": "تحديث ضريبة",
+    "Delete tax": "حذف ضريبة"
 }

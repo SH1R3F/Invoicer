@@ -162,5 +162,16 @@
     "Price": "Price",
     "Leave empty for auto generate": "Leave empty for auto generate",
     "Sku": "Sku",
-    "Price without taxes": "Price without taxes"
+    "Price without taxes": "Price without taxes",
+    "Tax deleted successfully": "Tax deleted successfully",
+    "Tax updated successfully": "Tax updated successfully",
+    "Tax created successfully": "Tax created successfully",
+    "Taxes": "Taxes",
+    "Create tax": "Create tax",
+    "Read tax": "Read tax",
+    "Update tax": "Update tax",
+    "Delete tax": "Delete tax",
+    "Add New Tax": "Add New Tax",
+    "Add Tax": "Add Tax",
+    "Edit tax": "Edit tax"
 }
