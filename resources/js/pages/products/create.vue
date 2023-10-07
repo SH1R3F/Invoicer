@@ -107,8 +107,8 @@ const onSubmit = async () => {
 <template>
   <VRow>
     <VCol cols="12">
-      <!-- 👉 Edit product -->
-      <VCard :title="$t('Edit product')">
+      <!-- 👉 Create product -->
+      <VCard :title="$t('Create product')">
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
           <VAvatar

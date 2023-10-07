@@ -40,7 +40,7 @@ class Productable extends Model
     }
 
     /**
-     * Relationship to productables
+     * Relationship to productables (quotes & invoices)
      */
     public function productable(): MorphTo
     {

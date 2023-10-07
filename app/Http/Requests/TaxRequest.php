@@ -34,7 +34,14 @@ class TaxRequest extends FormRequest
             ],
             'value'   => ['required', 'numeric'],
             'type'    => ['required', 'string', 'in:fixed,percentage'],
-            'default' => ['required', 'boolean']
+            'default' => ['nullable', 'boolean']
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'default' => $this->boolean($this->default)
+        ]);
     }
 }

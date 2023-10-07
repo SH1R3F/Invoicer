@@ -51,7 +51,7 @@ class Quote extends Model
     }
 
     /**
-     * Relationship to products
+     * Relationship to quote items
      */
     public function quotables(): MorphMany
     {

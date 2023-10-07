@@ -100,7 +100,7 @@ const onSubmit = async () => {
                 <AppTextField
                   v-model="taxDataLocal.value"
                   :label="$t('Value')"
-                  :prefix="type == 'percentage' ? '%' : '$'"
+                  :prefix="taxDataLocal.type == 'percentage' ? '%' : '$'"
                   type="number"
                   :rules="[requiredValidator]"
                   :error-messages="errors.value"

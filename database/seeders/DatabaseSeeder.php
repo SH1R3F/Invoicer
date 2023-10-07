@@ -30,12 +30,15 @@ class DatabaseSeeder extends Seeder
 
         $superadmin->syncRoles(Role::where('name', 'superadmin')->first());
 
+
+        return;
         // Just for testing
         Product::factory(30)->create();
         Tax::factory(10)->create();
+
+
         Quote::factory(20)->create()->each(function (Quote $quote) {
             $ids = array_rand(range(1, 30), rand(2, 7));
-            $products = [];
             foreach ($ids as $k => $id) {
                 $id = $id + 1;
                 $product = Product::find($id);
@@ -49,14 +52,13 @@ class DatabaseSeeder extends Seeder
                     }
                 }
 
-                $products[$id] = [
+                $quote->quotables()->create([
                     'name' => $product->name,
                     'price' => $product->getAttributes()['price'],
                     'quantity' => rand(1, 7),
                     'taxes' => json_encode($taxes),
-                ];
+                ]);
             }
-            $quote->products()->sync($products);
         });
     }
 }
